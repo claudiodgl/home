@@ -99,7 +99,12 @@
   function layout(){
     Rmax=Math.max(120,Math.min(W,H)/2-34);
     SC=Math.max(.62,Math.min(1,W/760));
-    var g=gG.selectAll("g").data(RINGS).join(function(en){var x=en.append("g");x.append("circle");x.append("text");return x});
+    /* a faint dotted ring for every paper count that occurs, so every person sits on a ring;
+       the labelled ones (1, 5, 12, max) are drawn a bit stronger */
+    var counts=[];co.forEach(function(n){var k=n.papers.length;if(counts.indexOf(k)<0)counts.push(k)});counts.sort(function(a,b){return a-b});
+    var g=gG.selectAll("g").data(counts,function(k){return k}).join(function(en){var x=en.append("g");x.append("circle");x.append("text");return x});
+    g.classed("major",function(k){return RINGS.indexOf(k)>=0});
+    g.select("text").style("display",function(k){return RINGS.indexOf(k)>=0?null:"none"});
     g.select("circle").attr("r",ringR).attr("fill","none").attr("stroke-dasharray","2 5");
     /* labels sit on the rings along the horizontal axis, right of the centre */
     g.select("text").attr("x",function(k){return ringR(k)+3}).attr("y",-3).attr("text-anchor","start")
@@ -137,7 +142,7 @@
     for(var q=0;q<as.length;q++){var nx=q+1<as.length?as[q+1]:as[0]+2*Math.PI,gp=nx-as[q];if(gp>best){best=gp;lab=as[q]+gp/2}}
     gG.selectAll("text").attr("x",function(k){return Math.cos(lab)*ringR(k)}).attr("y",function(k){return Math.sin(lab)*ringR(k)+3})
       .attr("text-anchor","middle").attr("paint-order","stroke").attr("stroke-width",3).attr("stroke-linejoin","round");
-    gG.selectAll("text").style("display",W<600?"none":null);   /* too cramped on phones: keep only the rings */
+    if(W<600)gG.selectAll("text").style("display","none");   /* too cramped on phones: keep only the rings */
     link.attr("x1",function(d){return d.source.x}).attr("y1",function(d){return d.source.y}).attr("x2",function(d){return d.target.x}).attr("y2",function(d){return d.target.y});
     node.attr("transform",function(d){return "translate("+d.x+","+d.y+")"});
     label.attr("x",function(d){return d.x}).attr("y",function(d){return d.y-rAt(d,year)-5});

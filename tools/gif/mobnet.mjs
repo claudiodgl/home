@@ -1,0 +1,18 @@
+import { launch, sleep } from "./cdp.mjs";
+import { writeFileSync } from "node:fs";
+const [url, out] = process.argv.slice(2);
+const b = await launch({ width: 390, height: 844, port: 9393 });
+await b.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
+await b.send("Emulation.setTouchEmulationEnabled", { enabled: true });
+await b.goto(url, 5000);
+await b.eval(`document.getElementById('netStage').scrollIntoView({block:'center'});1`);
+await sleep(800);
+console.log(await b.eval(`(()=>{const s=document.getElementById('netSvg'),r=s.getBoundingClientRect();
+  const rings=[...s.querySelectorAll('g:first-of-type circle')].map(c=>+(+c.getAttribute('r')).toFixed(1));
+  const me=document.querySelector('#netSvg .nd');
+  const ds=[...document.querySelectorAll('#netSvg .nd')].slice(0,200).map(g=>{const m=g.getAttribute('transform').match(/translate\(([-\d.e]+),([-\d.e]+)\)/);return m?Math.hypot(+m[1],+m[2]):null}).filter(d=>d>1);
+  return JSON.stringify({svgW:r.width,svgH:r.height,viewBox:s.getAttribute('viewBox'),rings,nodeR:[...new Set(ds.map(d=>d.toFixed(1)))].slice(0,12)})})()`));
+const r = JSON.parse(await b.eval(`(()=>{const r=document.getElementById('netSvg').getBoundingClientRect();return JSON.stringify({x:r.x+scrollX,y:r.y+scrollY,w:r.width,h:r.height})})()`));
+const s = await b.send("Page.captureScreenshot", { format: "png", clip: { x: r.x, y: r.y, width: r.w, height: r.h, scale: 1 } });
+writeFileSync(out, Buffer.from(s.result.data, "base64"));
+b.close();

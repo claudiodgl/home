@@ -694,3 +694,11 @@ footer .copy-yrs{white-space:nowrap}
   .hero-copy .role .rl{display:block}
   .hero-mail{align-self:center}
 }
+#netSvg > g:first-of-type g circle{opacity:.45}
+#netSvg > g:first-of-type g.major circle{opacity:1}
+/* orbit dots sit beside the same colour of the gradient border (conic gradient starts at 210deg:
+   coral 210, violet 300, teal 30, sun 120) and turn with it, so the colours always line up */
+.portrait .orbit i:nth-child(1){--a:210deg;--c:var(--coral)}
+.portrait .orbit i:nth-child(2){--a:300deg;--c:var(--violet)}
+.portrait .orbit i:nth-child(3){--a:30deg;--c:var(--teal)}
+.portrait .orbit i:nth-child(4){--a:120deg;--c:var(--sun)}
