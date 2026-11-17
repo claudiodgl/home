@@ -1,12 +1,18 @@
-# Weekly refresh of the Google Scholar snapshot (citations, h-index, publications with full
+# Refresh of the Google Scholar snapshot (on every push, daily, or by hand) (citations, h-index, publications with full
 # author lists). The page builds both the numbers and the co-authorship network from it.
 # Scholar sometimes blocks GitHub's servers; the script then exits without changing the data
 # and the site keeps the last good snapshot (run `python tools/fetch_scholar.py` locally instead).
 name: Refresh Google Scholar data
 on:
+  push:
+    branches: [main]       # every update of the site (its own data commits don't re-trigger it)
+    paths-ignore: ["data/scholar*.json", "data/scholar.js"]
   schedule:
-    - cron: "17 5 * * 1"   # Mondays 05:17 UTC
-  workflow_dispatch: {}
+    - cron: "17 5 * * *"   # and every day at 05:17 UTC
+  workflow_dispatch: {}    # plus the manual "Run workflow" button
+concurrency:
+  group: scholar
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
@@ -24,4 +30,4 @@ jobs:
           git config user.name "scholar-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/scholar.js data/scholar.json data/scholar_authors.json
-          git diff --cached --quiet || git commit -m "Update Google Scholar snapshot" && git push
+          if ! git diff --cached --quiet; then git commit -m "Update Google Scholar snapshot" && git push; fi
