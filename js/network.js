@@ -95,6 +95,40 @@
     .attr("font-size",11).attr("font-family","Instrument Sans, sans-serif").attr("font-weight",600)
     .attr("text-anchor","middle").attr("pointer-events","none").attr("paint-order","stroke").attr("stroke-width",3.5);
 
+
+  /* ---------- name labels: each one goes in the closest free spot around its circle, so two names never overlap ---------- */
+  var lw={},labelTop=null;
+  function textW(d,el){if(!lw[d.id]){var w=0;try{w=el.getComputedTextLength()}catch(e){}lw[d.id]=w>0?w:short(d).length*6.3}return lw[d.id]}
+  function hitRect(a,b){return a[0]<b[2]&&b[0]<a[2]&&a[1]<b[3]&&b[1]<a[3]}
+  function hitCirc(b,c){var x=Math.max(b[0],Math.min(c.x,b[2])),y=Math.max(b[1],Math.min(c.y,b[3]));return (x-c.x)*(x-c.x)+(y-c.y)*(y-c.y)<c.r*c.r}
+  function placeLabels(t,show){
+    var items=[];label.each(function(d){if(show(d))items.push({d:d,el:this})});
+    var circ=nodes.filter(function(n){return n===me||cum(n.ys,t)>0}).map(function(n){return {n:n,x:n.x,y:n.y,r:(n===me?26:rAt(n,t))+1}});
+    items.sort(function(a,b){return (b.d===labelTop)-(a.d===labelTop)||b.d.papers.length-a.d.papers.length});
+    var placed=[],H2=6,xm=W/2-2,ym=H/2-2;
+    items.forEach(function(it){
+      var d=it.d,w=textW(d,it.el),rr=rAt(d,t),best=null,bestS=1e9;
+      var cands=[];
+      [4,11,19,28].forEach(function(g){var R=rr+g,q=R*.72;
+        /* [anchor x, baseline y, text-anchor]: above, below, right, left, then the four diagonals */
+        cands.push([d.x,d.y-R-3,"middle"],[d.x,d.y+R+10,"middle"],[d.x+R,d.y+4,"start"],[d.x-R,d.y+4,"end"],
+                   [d.x+q,d.y-q-1,"start"],[d.x-q,d.y-q-1,"end"],[d.x+q,d.y+q+8,"start"],[d.x-q,d.y+q+8,"end"])});
+      cands.forEach(function(c,i){
+        var x0=c[2]==="middle"?c[0]-w/2:(c[2]==="start"?c[0]:c[0]-w);
+        x0=Math.max(-xm+1,Math.min(xm-w-1,x0));               /* near the edge: slide the name back inside the frame */
+        var b=[x0-1,c[1]-10,x0+w+1,c[1]+4];c=[x0,c[1],"start"];
+        var s=Math.floor(i/8)*12+(i%8?1:0);                    /* prefer close to the circle, then "above" */
+        if(i===d._lc)s-=3;                                     /* and the previous spot (no flicker while playing) */
+        for(var k=0;k<placed.length;k++)if(hitRect(b,placed[k])){s+=1000;break}
+        for(var k=0;k<circ.length;k++)if(circ[k].n!==d&&hitCirc(b,circ[k]))s+=40;
+        if(b[0]<-xm||b[2]>xm||b[1]<-ym||b[3]>ym)s+=500;
+        if(s<bestS){bestS=s;best={c:c,b:b,i:i}}
+      });
+      placed.push(best.b);d._lc=best.i;
+      d3.select(it.el).attr("x",best.c[0]).attr("y",best.c[1]).attr("text-anchor",best.c[2]);
+    });
+  }
+
   /* ---------- static layout: simulate offline, then freeze ---------- */
   function layout(){
     Rmax=Math.max(120,Math.min(W,H)/2-34);
@@ -145,7 +179,6 @@
     if(W<600)gG.selectAll("text").style("display","none");   /* too cramped on phones: keep only the rings */
     link.attr("x1",function(d){return d.source.x}).attr("y1",function(d){return d.source.y}).attr("x2",function(d){return d.target.x}).attr("y2",function(d){return d.target.y});
     node.attr("transform",function(d){return "translate("+d.x+","+d.y+")"});
-    label.attr("x",function(d){return d.x}).attr("y",function(d){return d.y-rAt(d,year)-5});
   }
   layout();
 
@@ -168,7 +201,6 @@
     node.style("opacity",function(n){return !visibleN(n)?0:(on(n)?1:.15)})
       .style("pointer-events",function(n){return visibleN(n)?"all":"none"});
     node.select("circle:not(.me-ring)").attr("fill",function(n){return color(n.first)}).attr("stroke",BG).attr("r",function(n){return rAt(n,year)});
-    label.attr("y",function(d){return d.y-rAt(d,year)-5});
     meG.select(".me-ring").attr("fill",BG).attr("stroke",TEXT).attr("stroke-width",2);
     link.attr("stroke",function(l){return lk===l?TEXT:(l.spoke?color(l.first):MUTE)})
       /* spoke width = papers with Claudio; co-author lines are all equal (they may share papers without Claudio) */
@@ -178,8 +210,10 @@
         if(lk)return l===lk?1:.04;
         return l.spoke?.5:.22})
       .style("pointer-events","none");          /* lines overlap too much to hover; only people are interactive */
-    label.attr("fill",TEXT).attr("stroke",BG)
-      .style("opacity",function(n){if(!visibleN(n))return 0;if(nb)return nb[n.id]?1:0;if(lk)return (n===lk.source||n===lk.target)?1:0;return n.papers.length>=4?.9:0});
+    function lop(n){if(!visibleN(n))return 0;if(nb)return nb[n.id]?1:0;if(lk)return (n===lk.source||n===lk.target)?1:0;return n.papers.length>=4?.9:0}
+    labelTop=f&&f.type==="node"?f.d:null;
+    placeLabels(year,function(n){return lop(n)>0});
+    label.attr("fill",TEXT).attr("stroke",BG).style("opacity",lop);
     if(!skipPanel)panel();
     if(pf)setBars(hitFor(pf),pf.type==="year"?pf.y:null);   /* panel hover: only the bars react, the list stays put */
   }
@@ -292,8 +326,8 @@
     link.attr("stroke",function(l){return l.spoke?color(l.first):MUTE})
       .attr("stroke-width",function(l){return wAt(l,t)})
       .style("opacity",function(l){return clamp01((t-(l.first-1))*1.6)*(l.spoke?.55:.22)});
-    label.attr("y",function(d){return d.y-rAt(d,t)-5})
-      .style("opacity",function(n){return cum(n.ys,t)>=4?.9:0});
+    labelTop=null;placeLabels(t,function(n){return cum(n.ys,t)>=4});
+    label.style("opacity",function(n){return cum(n.ys,t)>=4?.9:0});
     var y=Math.min(Y1,Math.max(Y0,Math.ceil(t-1e-6)));
     if(y!==shownYear){shownYear=y;year=y;slider.value=y;lbl.textContent=y;panel()}   /* panel/bars only when the year changes */
   }
