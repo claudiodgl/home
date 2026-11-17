@@ -75,13 +75,14 @@
   var gG=svg.append("g"),gL=svg.append("g"),gN=svg.append("g"),gT=svg.append("g");
   var Rmin=74,Rmax=240;
   function ringR(k){return Rmin+(Rmax-Rmin)*Math.pow(1-(k-1)/(maxN-1),.85)}
-  var RINGS=[1,3,8,maxN];
-  function r(n){return n.id===SELF?24:4+Math.sqrt(n.papers.length)*3.6}   /* final size, used for the layout */
+  var RINGS=[1,5,12,maxN].filter(function(k,i,a){return k<=maxN&&a.indexOf(k)===i});
+  var SC=1;                                /* circle size scale: smaller on narrow screens */
+  function r(n){return n.id===SELF?24:(4+Math.sqrt(n.papers.length)*3.6)*SC}   /* final size, used for the layout */
   /* growth over time: each paper fades in during the year before it, so sizes and widths change continuously */
   nodes.forEach(function(n){n.ys=n.papers.map(function(i){return P[i].y})});
   links.forEach(function(l){l.ys=l.papers.map(function(i){return P[i].y})});
   function cum(ys,t){var c=0;for(var i=0;i<ys.length;i++){var v=t-(ys[i]-1);c+=v<=0?0:(v>=1?1:v)}return c}
-  function rAt(n,t){if(n.id===SELF)return 24;var c=cum(n.ys,t);return c<=0?0:4+Math.sqrt(c)*3.6}
+  function rAt(n,t){if(n.id===SELF)return 24;var c=cum(n.ys,t);return c<=0?0:(4+Math.sqrt(c)*3.6)*SC}
   function wAt(l,t){return l.spoke?Math.min(13,.6+cum(l.ys,t)*.55):1}
 
   var link=gL.selectAll("line").data(links).join("line").attr("stroke-linecap","round");
@@ -96,11 +97,13 @@
 
   /* ---------- static layout: simulate offline, then freeze ---------- */
   function layout(){
-    Rmax=Math.max(140,Math.min(W,H)/2-44);
+    Rmax=Math.max(120,Math.min(W,H)/2-34);
+    SC=Math.max(.62,Math.min(1,W/760));
     var g=gG.selectAll("g").data(RINGS).join(function(en){var x=en.append("g");x.append("circle");x.append("text");return x});
     g.select("circle").attr("r",ringR).attr("fill","none").attr("stroke-dasharray","2 5");
-    g.select("text").attr("x",function(k){return ringR(k)*.71+4}).attr("y",function(k){return ringR(k)*.71+12})
-      .attr("font-size",10).attr("font-family","JetBrains Mono, monospace").text(function(k){return k+" paper"+(k>1?"s":"")});
+    /* labels sit on the rings along the horizontal axis, right of the centre */
+    g.select("text").attr("x",function(k){return ringR(k)+3}).attr("y",-3).attr("text-anchor","start")
+      .attr("font-size",10).attr("font-family","JetBrains Mono, monospace").text(function(k,i){return k+(i===RINGS.length-1||k===1?(k>1?" papers":" paper"):"")});
     me.x=0;me.y=0;me.fx=0;me.fy=0;
     co.slice().sort(function(a,b){return a.first-b.first||b.papers.length-a.papers.length}).forEach(function(n,i,arr){
       var a=-Math.PI/2+i/arr.length*2*Math.PI,R=ringR(n.papers.length);n.x=Math.cos(a)*R;n.y=Math.sin(a)*R;n.vx=n.vy=0});
@@ -110,6 +113,31 @@
       .force("collide",d3.forceCollide().radius(function(n){return r(n)+6}))
       .force("radial",d3.forceRadial(function(n){return n.id===SELF?0:ringR(n.papers.length)},0,0).strength(.9));
     for(var i=0;i<400;i++)sim.tick();
+    /* snap everyone exactly onto their radius (so the dotted rings line up), keeping the angle the forces found;
+       people on the same radius are then spaced along the ring instead of being pushed off it */
+    var groups={};
+    co.forEach(function(n){n.ang=Math.atan2(n.y,n.x);n.R=ringR(n.papers.length);(groups[n.R.toFixed(2)]=groups[n.R.toFixed(2)]||[]).push(n)});
+    Object.keys(groups).forEach(function(k){var g=groups[k],R=+k;if(g.length<2)return;
+      g.sort(function(a,b){return a.ang-b.ang});
+      for(var pass=0;pass<40;pass++){var moved=false;
+        for(var i=0;i<g.length;i++){var a=g[i],b=g[(i+1)%g.length],gap=b.ang-a.ang;if(i===g.length-1)gap+=2*Math.PI;
+          var need=(r(a)+r(b)+3)/R;
+          if(gap<need){var d=(need-gap)/2;a.ang-=d;b.ang+=d;moved=true}}
+        if(!moved)break}
+    });
+    for(var pass=0;pass<80;pass++){var moved=false;
+      for(var i=0;i<co.length;i++)for(var j=i+1;j<co.length;j++){var a=co[i],b=co[j];
+        var dx=Math.cos(a.ang)*a.R-Math.cos(b.ang)*b.R,dy=Math.sin(a.ang)*a.R-Math.sin(b.ang)*b.R,need=r(a)+r(b)+2,d=Math.hypot(dx,dy);
+        if(d<need){var da=b.ang-a.ang;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;
+          var sgn=da>=0?1:-1,step=(need-d)/((a.R+b.R)/2)/2+.002;a.ang-=sgn*step;b.ang+=sgn*step;moved=true}}
+      if(!moved)break}
+    co.forEach(function(n){n.x=Math.cos(n.ang)*n.R;n.y=Math.sin(n.ang)*n.R});
+    /* ring labels go in the widest empty gap around the circle */
+    var as=co.map(function(n){var a=n.ang%(2*Math.PI);return a<0?a+2*Math.PI:a}).sort(function(a,b){return a-b}),best=0,lab=0;
+    for(var q=0;q<as.length;q++){var nx=q+1<as.length?as[q+1]:as[0]+2*Math.PI,gp=nx-as[q];if(gp>best){best=gp;lab=as[q]+gp/2}}
+    gG.selectAll("text").attr("x",function(k){return Math.cos(lab)*ringR(k)}).attr("y",function(k){return Math.sin(lab)*ringR(k)+3})
+      .attr("text-anchor","middle").attr("paint-order","stroke").attr("stroke-width",3).attr("stroke-linejoin","round");
+    gG.selectAll("text").style("display",W<600?"none":null);   /* too cramped on phones: keep only the rings */
     link.attr("x1",function(d){return d.source.x}).attr("y1",function(d){return d.source.y}).attr("x2",function(d){return d.target.x}).attr("y2",function(d){return d.target.y});
     node.attr("transform",function(d){return "translate("+d.x+","+d.y+")"});
     label.attr("x",function(d){return d.x}).attr("y",function(d){return d.y-rAt(d,year)-5});
@@ -123,7 +151,7 @@
   function neighbours(n){var s={};s[n.id]=1;links.forEach(function(l){if(!visibleL(l))return;if(l.source===n)s[l.target.id]=1;if(l.target===n)s[l.source.id]=1});return s}
   function style(skipPanel){
     var TEXT=css("--text"),MUTE=css("--mute"),BG=css("--bg"),LINE=css("--line2");
-    gG.selectAll("circle").attr("stroke",LINE);gG.selectAll("text").attr("fill",MUTE);
+    gG.selectAll("circle").attr("stroke",LINE);gG.selectAll("text").attr("fill",MUTE).attr("stroke",BG);
     var f=pf||pinned||focus,nb=null,lk=null;
     if(f&&f.type==="node")nb=neighbours(f.d);
     else if(f&&f.type==="link")lk=f.d;
