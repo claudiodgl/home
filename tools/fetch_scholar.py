@@ -1,5 +1,10 @@
 """Fetch the Google Scholar profile and write data/scholar.js (+ scholar.json).
 
+Both the citation numbers and the co-authorship network on the page are built from
+this one snapshot, so they always agree. The profile list abbreviates long author
+lists ("..."), so each paper's Scholar page is also read for the full author names
+(cached in data/scholar_authors.json, so later runs only fetch new papers).
+
 Google Scholar has no API and blocks browser (CORS) requests, so the page cannot
 read Scholar live. Run this script instead (locally, or from a scheduled GitHub
 Action) and commit the output:
@@ -15,6 +20,9 @@ import json
 import pathlib
 import re
 import sys
+import random
+import time
+import urllib.error
 import urllib.request
 
 USER = "4Cj0tLEAAAAJ"
@@ -67,15 +75,48 @@ def parse(page):
     }
 
 
+def get(url):
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "en"})
+    return urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
+
+
+def full_authors(url):
+    """Authors field of a publication's Scholar page, or None (CAPTCHA, layout change)."""
+    page = get(url)
+    m = re.search(r'<div class="gsc_oci_field">Authors</div><div class="gsc_oci_value">(.*?)</div>', page, re.S)
+    return text(m.group(1)) if m else None
+
+
 def main():
-    req = urllib.request.Request(URL, headers={"User-Agent": UA, "Accept-Language": "en"})
-    page = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
     try:
-        data = parse(page)
-    except ValueError as e:
+        data = parse(get(URL))
+    except (ValueError, OSError) as e:
         print("Scholar fetch failed:", e, "- keeping previous data", file=sys.stderr)
         return 1
     OUT.mkdir(exist_ok=True)
+    cache_p = OUT / "scholar_authors.json"
+    cache = json.loads(cache_p.read_text(encoding="utf-8")) if cache_p.exists() else {}
+    for p in data["publications"]:
+        if not p["url"]:
+            continue
+        if p["url"] not in cache:
+            time.sleep(random.uniform(2.5, 5))   # be gentle: Scholar blocks fast clients
+            try:
+                a = full_authors(p["url"])
+            except urllib.error.HTTPError as e:
+                if e.code == 429:   # rate-limited: stop now, the rest is fetched on a later run
+                    print("Scholar rate limit (429); remaining author lists will be fetched next run", file=sys.stderr)
+                    break
+                a = None
+            except OSError:
+                a = None
+            if not a:
+                print("  could not read authors for:", p["title"][:60], file=sys.stderr)
+            else:
+                cache[p["url"]] = a
+    for p in data["publications"]:
+        p["authors_full"] = cache.get(p["url"])     # None until fetched; the page falls back gracefully
+    cache_p.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
     js = json.dumps(data, ensure_ascii=False, indent=1)
     (OUT / "scholar.json").write_text(js, encoding="utf-8")
     (OUT / "scholar.js").write_text("window.SCHOLAR = " + js + ";\n", encoding="utf-8")

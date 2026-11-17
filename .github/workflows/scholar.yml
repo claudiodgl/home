@@ -1,0 +1,27 @@
+# Weekly refresh of the Google Scholar snapshot (citations, h-index, publications with full
+# author lists). The page builds both the numbers and the co-authorship network from it.
+# Scholar sometimes blocks GitHub's servers; the script then exits without changing the data
+# and the site keeps the last good snapshot (run `python tools/fetch_scholar.py` locally instead).
+name: Refresh Google Scholar data
+on:
+  schedule:
+    - cron: "17 5 * * 1"   # Mondays 05:17 UTC
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  scholar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch Scholar profile
+        run: python tools/fetch_scholar.py || echo "Scholar fetch failed; keeping previous snapshot"
+      - name: Commit if changed
+        run: |
+          git config user.name "scholar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/scholar.js data/scholar.json data/scholar_authors.json
+          git diff --cached --quiet || git commit -m "Update Google Scholar snapshot" && git push

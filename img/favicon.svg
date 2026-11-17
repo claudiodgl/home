@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g stroke="#9a8cff" stroke-width="2.4" stroke-linecap="round"><path d="M9 22 16 9l8 13z" fill="none"/></g><circle cx="16" cy="9" r="5" fill="#ff7059"/><circle cx="9" cy="22" r="4.4" fill="#2fd6b2"/><circle cx="24" cy="22" r="4.4" fill="#9a8cff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7059"/><stop offset=".55" stop-color="#9a8cff"/><stop offset="1" stop-color="#2fd6b2"/></linearGradient>
+    <style>
+      .bg{fill:#0f1220}.k{fill:#fff}
+      @media (prefers-color-scheme: light){.bg{fill:#fffdf9;stroke:#1b1e2b;stroke-width:2}.k{fill:#1b1e2b}}
+      text{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-weight:900;font-size:27px;text-anchor:middle}
+    </style>
+  </defs>
+  <rect class="bg" x="1" y="1" width="62" height="62" rx="14"/>
+  <!-- C D / G L, with the L in the page gradient -->
+  <text class="k" x="18" y="29">C</text>
+  <text class="k" x="45" y="29">D</text>
+  <text class="k" x="18" y="56">G</text>
+  <text x="45" y="56" fill="url(#g)">L</text>
+</svg>

@@ -1,0 +1,23 @@
+// Interaction smoke test for the network panel: hover/click bars, list items, nodes; report JS errors.
+import { launch, sleep } from "./cdp.mjs";
+const [url, out] = process.argv.slice(2);
+const b = await launch({ width: 1400, height: 900, port: 9370 });
+const errs = [];
+await b.send("Runtime.enable");
+await b.goto(url, 5000);
+const r = await b.eval(`(async()=>{const log=[];window.onerror=(m)=>log.push(String(m));
+ const ev=(el,t)=>el.dispatchEvent(new MouseEvent(t,{bubbles:true}));const w=ms=>new Promise(r=>setTimeout(r,ms));
+ document.getElementById('network').scrollIntoView();await w(300);
+ const cols=[...document.querySelectorAll('.bars>div')];ev(cols[4],'mouseenter');await w(200);const op1=[...document.querySelectorAll('#netSvg .nd')].filter(n=>getComputedStyle(n).opacity>0.5).length;
+ ev(cols[4],'mouseleave');await w(300);ev(cols[4],'click');await w(200);const yr=document.getElementById('netYearLbl').textContent;
+ ev(cols[4],'click');await w(200);
+ const li=document.querySelector('.side-list li[data-k]');ev(li,'mouseover');await w(250);const op2=[...document.querySelectorAll('#netSvg .nd')].filter(n=>getComputedStyle(n).opacity>0.5).length;
+ ev(li,'click');await w(300);const pli=document.querySelector('.side-list li[data-p]');ev(pli,'mouseover');await w(250);
+ const op3=[...document.querySelectorAll('#netSvg .nd')].filter(n=>getComputedStyle(n).opacity>0.5).length;
+ const labels=[...document.querySelectorAll('.bars .n')].map(n=>n.textContent).join(' ');
+ return JSON.stringify({errors:log,yearAfterClick:yr,visibleOnYearHover:op1,visibleOnCoauthorHover:op2,visibleOnPaperHover:op3,barLabels:labels})})()`);
+console.log(r);
+await sleep(300);
+const shot = await b.send("Page.captureScreenshot", { format: "jpeg", quality: 80 });
+(await import("node:fs")).writeFileSync(out, Buffer.from(shot.result.data, "base64"));
+b.close();

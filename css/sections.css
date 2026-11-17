@@ -1,11 +1,11 @@
 /* ---------- hero (title + about in one) ---------- */
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:44px;padding-block:56px 40px;align-items:center}
-@media (min-width:940px){.hero .wrap{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);padding-block:80px 56px}}
+@media (min-width:940px){.hero .wrap{grid-template-columns:minmax(0,1fr) 320px;gap:56px;padding-block:72px 48px}}
 .hero-copy{display:flex;flex-direction:column;gap:20px;min-width:0}
 .affil{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;padding:6px 14px 6px 10px;border:1px solid var(--line2);border-radius:999px;background:var(--surface);font-size:.88rem;font-weight:500;color:var(--soft);text-decoration:none}
 .affil .lnu{color:var(--text)}
 .affil:hover{border-color:var(--teal)}
-h1{font-family:var(--f-display);font-weight:800;font-size:clamp(2.8rem,7.6vw,5.4rem);line-height:.94;letter-spacing:-.05em;margin:0}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(1.75rem,5.4vw,3.6rem);line-height:1;letter-spacing:-.045em;margin:0;white-space:nowrap}
 h1 .last{background:linear-gradient(100deg,var(--coral) 10%,var(--violet) 55%,var(--teal) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .role{font-family:var(--f-mono);font-size:.86rem;color:var(--mute);margin:-6px 0 0}
 .role b{color:var(--text);font-weight:600}
@@ -23,10 +23,9 @@ h1 .last{background:linear-gradient(100deg,var(--coral) 10%,var(--violet) 55%,va
 .stat a{text-decoration:none}
 
 /* portrait: squircle with a gradient ring and orbiting nodes */
-.portrait{position:relative;justify-self:center;width:min(78vw,360px);aspect-ratio:1;margin:0}
-.portrait .ring{position:absolute;inset:0;border-radius:38% 62% 55% 45% / 45% 40% 60% 55%;background:conic-gradient(from 210deg,var(--coral),var(--violet),var(--teal),var(--sun),var(--coral));animation:morph 14s ease-in-out infinite;padding:7px}
-.portrait .ring img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:inherit;border:5px solid var(--bg)}
-@keyframes morph{0%,100%{border-radius:38% 62% 55% 45%/45% 40% 60% 55%}50%{border-radius:55% 45% 40% 60%/58% 55% 45% 42%}}
+.portrait{position:relative;justify-self:center;width:min(64vw,270px);aspect-ratio:1;margin:26px}
+.portrait .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 210deg,var(--coral),var(--violet),var(--teal),var(--sun),var(--coral));padding:6px;animation:spin 18s linear infinite}
+.portrait .ring img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:50%;border:5px solid var(--bg);animation:spin 18s linear infinite reverse}
 .orbit{position:absolute;inset:-26px;border:1.5px dashed var(--line2);border-radius:50%;animation:spin 40s linear infinite;pointer-events:none}
 .orbit i{position:absolute;width:12px;height:12px;border-radius:50%;border:2.5px solid var(--bg)}
 .orbit i:nth-child(1){top:6%;left:20%;background:var(--coral)}
@@ -91,7 +90,13 @@ h1 .last{background:linear-gradient(100deg,var(--coral) 10%,var(--violet) 55%,va
 .topic span{font-size:.84rem;color:var(--mute)}
 
 /* ---------- demos ---------- */
-.demos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:20px}
+.demos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (min-width:640px){.demos{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1000px){.demos{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.demos .demo .txt{padding:12px 13px 14px;gap:3px}
+.demos .demo h3{font-size:1rem}
+.demos .demo .txt p{font-size:.8rem;line-height:1.35}
+.demos .demo .venue{padding-top:4px;font-size:.66rem}
 .demo{overflow:hidden;display:flex;flex-direction:column;text-decoration:none;transition:transform .2s,border-color .2s}
 .demo:hover{transform:translateY(-4px);border-color:var(--teal)}
 .demo .shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#fff;border-bottom:1px solid var(--line)}
@@ -174,3 +179,501 @@ a.ev:hover{transform:translateY(-3px);border-color:var(--teal)}
 :root[data-theme="light"] .theme-light-only{display:block}
 
 .ev .vis .mlogo.ieee{--src:url("data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="232.84" height="131.06" viewBox="0 0 61.61 34.68"%3E%3Cg fill="%230a70a3"%3E%3Cpath d="m4.22 25.61-.65.01-.04-.04c-.02-.27-.02-.47-.05-.75l-.04-.53H1.93l-.24.45-.38.76-.02.06-.05.03-.63.01-.03-.06c.11-.2 1.75-3.1 2.32-4.2l.05-.03.85-.02.03.03c.03.51.25 2.81.42 4.24zm-.96-3.87L2.18 23.8l.41.01h.83zm0 0"/%3E%3Cpath d="M7.2 25.6c-.2 0-.35 0-.56.02l-.03-.05.05-.23c-.2.14-.45.31-.87.31-.73 0-1.15-.54-1.15-1.21 0-.33.12-.77.32-1.1.51-.81 1.31-.91 1.92-.91l.42.01.3-1.5.04-.04.65-.11.03.04a91.08 91.08 0 0 0-1.07 4.73zM7.2 22.9a1.39 1.39 0 0 0-.28-.02c-.83 0-1.23.36-1.45.82-.04.1-.15.36-.15.65 0 .45.25.8.75.8.15 0 .53-.1.69-.3zm0 0"/%3E%3Cpath d="m9.43 25.6-.7.03-.06-.04c-.05-.56-.28-2.42-.35-3.07l.03-.05c.23 0 .4 0 .62-.03l.04.04.07.93.15 1.7 1.33-2.62.06-.03h.56l.03.04-.6 1.03-.51.92-.62 1.12zm0 0"/%3E%3Cpath d="M13.58 25.61h-.16l-.41.01-.03-.04.04-.24c-.28.23-.59.3-.88.3-.72 0-1.13-.53-1.13-1.18 0-.44.2-.86.29-1.02.5-.89 1.4-.99 2.04-.99l.9.01.03.04c-.5 2.15-.57 2.49-.65 3.07zm-1.17-.44c.19 0 .49-.08.7-.3.15-.62.27-1.26.44-1.95l-.26-.02c-.58 0-1.17.19-1.48.9a1.6 1.6 0 0 0-.13.62c0 .43.26.75.73.75"/%3E%3Cpath d="M17.08 25.61c-.23 0-.38 0-.61.02l-.03-.05.26-1.07.14-.7c.02-.09.07-.28.07-.44 0-.45-.4-.47-.52-.47-.37 0-.66.22-.8.32-.17.78-.34 1.57-.49 2.35l-.04.04c-.23 0-.39 0-.62.02l-.03-.05c.2-.8.58-2.48.64-3.03l.04-.04.64-.1.03.03-.08.31c.44-.34.88-.37 1.02-.37.18 0 .87.03.87.81 0 .2-.07.6-.2 1.17l-.09.43c-.06.3-.11.5-.15.78zm0 0"/%3E%3Cpath d="M20.17 25.51c-.21.12-.57.17-.78.17-.78 0-1.32-.59-1.32-1.36 0-.5.21-1.28.88-1.69.35-.21.72-.24.89-.24.42 0 .75.1.94.24l.01.04-.15.48-.06.02c-.1-.16-.36-.3-.68-.3-.76 0-1.17.8-1.17 1.4 0 .71.55.92.84.92.1 0 .42-.01.74-.29l.05.02c-.07.2-.1.34-.15.55zm0 0"/%3E%3Cpath d="m21.32 25.6-.65.02-.03-.04c.2-.7.63-2.7.66-3.03l.04-.04c.25-.03.42-.05.66-.1l.03.05c-.03-.01-.53 2.3-.67 3.11zm.86-4-.63.1-.04-.06.13-.55.05-.05.63-.08.05.04-.14.56zm0 0"/%3E%3Cpath d="M24.82 25.61c-.23 0-.39 0-.62.02l-.02-.05c.08-.4.17-.67.25-1.07l.15-.7c.02-.09.07-.28.07-.44 0-.45-.4-.47-.52-.47-.37 0-.66.22-.8.32-.17.78-.35 1.57-.5 2.35l-.03.04c-.23 0-.4 0-.62.02l-.03-.05c.2-.8.58-2.48.63-3.03l.05-.04.64-.1.03.03-.09.31c.45-.34.88-.37 1.02-.37.19 0 .88.03.88.81 0 .2-.08.6-.2 1.17l-.09.43c-.06.3-.11.5-.15.78zm0 0"/%3E%3Cpath d="M29.05 22.5c-.17.68-.32 1.3-.46 1.99l-.17.8c-.22 1-.4 1.85-1.72 1.85-.36 0-.9-.08-1.25-.45v-.05c.1-.14.15-.24.24-.39h.05c.17.21.47.43.92.43.9 0 .97-.83 1.04-1.04l.06-.25c-.4.28-.76.29-.89.29-.71 0-1.09-.55-1.09-1.18 0-.15.02-.67.35-1.16.56-.88 1.48-.88 2.17-.88l.73-.02zm-.74.43h-.24c-.54 0-1.13.09-1.47.8-.14.32-.16.56-.16.7 0 .63.4.77.7.77.34 0 .59-.17.72-.3zm0 0"/%3E%3Cpath d="m32.4 25.61-.64.01-.03-.04c.15-.59.83-3.4.88-3.75-.66 0-.95.02-1.24.03l-.03-.04c.05-.18.1-.3.13-.47l.05-.03a49.74 49.74 0 0 0 3.05-.01l.03.04-.14.47-.04.03c-.24-.02-.6-.02-1.13-.02-.12.4-.17.71-.27 1.14l-.3 1.38c-.1.41-.19.8-.26 1.22zm0 0"/%3E%3Cpath d="M36.09 25.44c-.2.12-.52.24-.99.24-1.04 0-1.4-.62-1.4-1.31 0-1.06.64-1.98 1.7-1.98.7 0 1.22.33 1.22 1.13 0 .25-.06.46-.08.56l-.04.02h-1.42l-.74.01-.02.26c0 .8.69.82.9.82.51 0 .77-.2 1-.37l.06.03c-.07.2-.11.34-.16.55zm-.08-1.77.03-.26c-.01-.55-.47-.6-.62-.6-.7 0-.94.65-1 .87h1.6"/%3E%3Cpath d="M39.04 25.51c-.2.12-.57.17-.78.17-.78 0-1.32-.59-1.32-1.36 0-.5.22-1.28.88-1.69.36-.21.72-.24.89-.24.42 0 .76.1.94.24l.02.04c-.07.18-.1.3-.15.48l-.06.02c-.1-.16-.37-.3-.69-.3-.76 0-1.17.8-1.17 1.4 0 .71.55.92.84.92.1 0 .42-.01.74-.29l.05.02c-.07.2-.1.34-.15.55zm0 0"/%3E%3Cpath d="m42.2 25.61-.61.01-.03-.04.17-.7.17-.76c.04-.16.14-.63.14-.8 0-.42-.37-.43-.48-.43-.38 0-.74.25-.84.34l-.24 1.08c-.1.42-.17.83-.26 1.26l-.04.03-.61.02-.04-.04c.09-.39.92-3.74 1.01-4.65l.05-.03.66-.11.03.04c-.17.64-.3 1.27-.46 1.92.19-.13.55-.36 1.05-.36.16 0 .83.04.83.76 0 .27-.05.55-.1.77l-.17.73-.18.92zm0 0"/%3E%3Cpath d="M45.71 25.61c-.23 0-.39 0-.61.02l-.03-.05c.08-.4.17-.67.25-1.07l.15-.7c.02-.09.07-.28.07-.44 0-.45-.4-.47-.52-.47-.37 0-.66.22-.8.32-.17.78-.34 1.57-.49 2.35l-.04.04c-.23 0-.39 0-.62.02l-.03-.05c.2-.8.58-2.48.63-3.03l.05-.04.64-.1.03.03-.08.31c.44-.34.88-.37 1.01-.37.19 0 .88.03.88.81 0 .2-.07.6-.2 1.17l-.09.43c-.06.3-.11.5-.15.78zm0 0"/%3E%3Cpath d="M48.37 22.39c.75 0 1.3.38 1.3 1.19 0 .64-.3 2.1-1.73 2.1-.38 0-1.26-.09-1.26-1.21 0-.98.54-2.08 1.69-2.08m-.41 2.84c.91 0 1.06-1.48 1.06-1.68 0-.59-.35-.72-.63-.72-.83 0-1.06 1.25-1.06 1.68 0 .39.18.72.63.72"/%3E%3Cpath d="M50.6 25.61c-.22 0-.39 0-.62.02l-.02-.04c.09-.49.74-3.15.95-4.66l.04-.04c.25-.03.42-.06.67-.11l.03.03c-.3 1.31-.92 4.2-1 4.76zm0 0"/%3E%3Cpath d="M53.23 22.39c.75 0 1.3.38 1.3 1.19 0 .64-.3 2.1-1.72 2.1-.38 0-1.26-.09-1.26-1.21 0-.98.53-2.08 1.68-2.08m-.41 2.84c.92 0 1.07-1.48 1.07-1.68 0-.59-.36-.72-.63-.72-.84 0-1.07 1.25-1.07 1.68 0 .39.18.72.63.72"/%3E%3Cpath d="M58.19 22.5c-.17.68-.33 1.3-.47 1.99l-.17.8c-.21 1-.39 1.85-1.72 1.85-.36 0-.9-.08-1.25-.45v-.05l.25-.39h.05c.16.21.46.43.91.43.9 0 .98-.83 1.05-1.04l.05-.25c-.4.28-.75.29-.89.29-.71 0-1.09-.55-1.09-1.18 0-.15.03-.67.35-1.16.57-.88 1.48-.88 2.17-.88l.73-.02zm-.75.43h-.24c-.54 0-1.13.09-1.46.8-.15.32-.17.56-.17.7 0 .63.4.77.71.77.34 0 .58-.17.71-.3zm0 0"/%3E%3Cpath d="M61.47 22.5a95.3 95.3 0 0 0-2.66 4.55l-.05.03h-.27l-.36.01-.02-.04c.18-.27.78-1.2.93-1.47-.24-1.5-.46-3-.49-3.08l.04-.04c.23 0 .4-.01.63-.03l.05.03c.03.34.05.57.1.9l.17 1.43.59-1.04c.23-.4.46-.82.68-1.26l.04-.03h.2l.4-.01zm0 0"/%3E%3Cpath d="M23.15 33.07c-.23 0-.39 0-.61.02l-.03-.04c.21-.98.1-.4.59-2.67h-.46l-.04-.03.11-.4.05-.05a5 5 0 0 0 .43.02l.09-.44c.13-.65.25-1.2 1.1-1.2.21 0 .35.04.44.06l.03.05-.11.41-.05.04c-.04 0-.12-.04-.23-.04-.39 0-.45.25-.56.73l-.08.39h.58l.03.04c-.05.12-.08.24-.12.39l-.05.04-.53-.01c-.2.96-.4 1.7-.53 2.65zm0 0"/%3E%3Cpath d="M25.98 29.85c.75 0 1.3.38 1.3 1.19 0 .63-.3 2.1-1.73 2.1-.38 0-1.26-.1-1.26-1.21 0-.99.54-2.08 1.69-2.08m-.41 2.84c.91 0 1.06-1.48 1.06-1.69 0-.58-.35-.71-.63-.71-.83 0-1.07 1.24-1.07 1.68 0 .39.19.72.64.72"/%3E%3Cpath d="M28.18 33.07h-.63l-.03-.03c.25-.95.6-2.51.66-3.03l.04-.04.66-.1.03.04-.14.53c.1-.15.36-.6.8-.6.13 0 .21.03.27.07l.02.05c-.1.22-.15.37-.24.6l-.06.01a.46.46 0 0 0-.25-.08c-.17 0-.54.08-.73.87-.06.23-.3 1.27-.35 1.66zm0 0"/%3E%3Cpath d="m34.77 33.06-.66.01-.02-.03.47-2.04H33.3c-.26 0-.45 0-.72.02-.17.66-.3 1.34-.43 2.01l-.05.04h-.65l-.03-.03c.07-.28.82-3.47.95-4.22l.04-.04.65-.01.03.03c-.17.73-.16.62-.4 1.7h.42c.54 0 1.15 0 1.56-.02l.36-1.66.04-.04.65-.01.03.03c-.38 1.64-.8 3.47-.94 4.22zm0 0"/%3E%3Cpath d="m38.3 33.06-.6.02-.03-.04.07-.29c-.31.26-.66.38-.99.38-.74 0-.9-.5-.9-.83 0-.22.05-.45.16-.93l.13-.57.17-.83.04-.04c.23 0 .38-.02.61-.03l.03.04c-.22.92-.47 1.88-.47 2.16 0 .17.05.52.52.52.27 0 .55-.12.8-.35.32-1.42.46-2.1.49-2.3l.05-.04c.22 0 .38-.02.61-.03l.03.04c-.2.71-.62 2.67-.68 3.08zm0 0"/%3E%3Cpath d="M43.6 33.07H43l-.04-.03c.1-.36.18-.73.26-1.08l.11-.47c.09-.36.12-.6.12-.71 0-.4-.35-.42-.45-.42-.38 0-.68.22-.81.33 0 .13-.04.42-.13.8l-.14.64c-.07.3-.13.59-.18.9l-.04.04h-.61l-.03-.04c.1-.37.47-1.86.47-2.24 0-.4-.34-.43-.46-.43-.32 0-.62.23-.73.32l-.2.9c-.12.54-.2.91-.3 1.45l-.04.03c-.23 0-.38 0-.6.02l-.04-.04c.23-.9.58-2.53.64-3.04l.04-.03.64-.1.04.04-.08.3a1.7 1.7 0 0 1 1.04-.36c.14 0 .5.04.66.44.5-.4.98-.44 1.14-.44.45 0 .83.24.83.74 0 .2-.05.43-.1.67l-.1.46c-.12.48-.17.82-.27 1.31zm0 0"/%3E%3Cpath d="M47.1 33.07H46.54l-.03-.03.04-.24c-.29.23-.59.3-.89.3-.71 0-1.12-.53-1.12-1.18 0-.45.2-.87.29-1.02.5-.89 1.4-1 2.03-1l.9.02.04.04c-.5 2.14-.57 2.49-.65 3.07zm-1.17-.44c.2 0 .5-.09.7-.3.16-.62.28-1.26.45-1.96h-.27c-.58 0-1.17.17-1.47.9-.03.08-.13.32-.13.6 0 .44.25.76.72.76"/%3E%3Cpath d="m50.61 33.07-.62.01-.02-.04c.08-.4.17-.68.25-1.08l.15-.69c.02-.09.06-.28.06-.45 0-.45-.39-.46-.51-.46-.37 0-.66.21-.8.32-.17.78-.35 1.56-.5 2.35l-.04.04-.61.01-.03-.04c.2-.8.58-2.48.63-3.03l.05-.04.64-.11.03.04-.09.31c.45-.34.88-.37 1.02-.37.18 0 .88.03.88.8 0 .2-.08.61-.2 1.18l-.09.43c-.06.29-.11.49-.15.78zm0 0"/%3E%3Cpath d="M52.1 33.06c-.24 0-.41 0-.65.02l-.03-.04c.2-.7.63-2.7.66-3.03l.04-.04.66-.1.03.04c-.03 0-.53 2.3-.67 3.12zm.86-4-.63.09-.04-.05.13-.56.05-.04.63-.08.05.04-.14.55zm0 0"/%3E%3Cpath d="M54.25 33.05c-.2.05-.36.06-.44.06-.57 0-.72-.3-.72-.6 0-.23.13-.77.3-1.5l.16-.63h-.44l-.03-.04.1-.4.05-.03h.42c.07-.27.1-.47.16-.75l.05-.04.63-.15.03.03-.13.45-.11.47.66-.01.03.04-.13.4-.04.04-.62-.01-.33 1.37c-.03.12-.12.5-.12.62 0 .2.14.26.3.26.16 0 .3-.06.36-.08l.03.03-.13.43zm0 0"/%3E%3Cpath d="M57.95 29.96a96.54 96.54 0 0 0-2.66 4.54l-.05.04h-.63l-.02-.04c.18-.26.78-1.2.92-1.46-.23-1.5-.45-3-.48-3.08l.04-.04c.23 0 .4-.01.63-.03l.05.03.09.9.18 1.43.58-1.05c.23-.4.47-.81.68-1.25l.05-.04H57.92zm0 0"/%3E%3Cpath d="M20.59 2.5h3.75v13.54h-3.75zm0 0"/%3E%3Cpath d="M26.3 16.04V2.5h10.33v2.62h-6.57v2.8h6.04v2.63h-6.04v2.87h6.57v2.62zm0 0"/%3E%3Cpath d="M38.73 16.04V2.5h10.31v2.62h-6.56v2.8h6.04v2.63h-6.04v2.87h6.56v2.62zm0 0"/%3E%3Cpath d="M51.15 16.04V2.5h10.31v2.62H54.9v2.8h6.04v2.63H54.9v2.87h6.56v2.62zm0 0"/%3E%3Cpath d="M8.55 2.65c.6-.47 1.35-.08 1.85.35.53.4 1.08.86 1.56 1.33l.09.05a25.93 25.93 0 0 1 3.6 4.06c.16.26.3.55.21.88-.34.85-1.03 1.53-1.63 2.27A27.5 27.5 0 0 1 10 15.44c-.32.22-.74.42-1.11.25-1.13-.6-2.1-1.57-3.08-2.46a21.34 21.34 0 0 1-3.18-3.61c-.13-.18-.17-.4-.17-.65.12-.45.42-.82.72-1.2a29.6 29.6 0 0 1 3.56-3.7l.14-.11c.54-.48 1.09-.9 1.66-1.31m1.75-1.37L9.63.32C9.54.27 9.44.2 9.35.16c-.2-.08-.42.02-.58.15L7.55 1.9A33 33 0 0 1 .7 8.34c-.2.16-.5.31-.56.57-.07.23.06.43.2.57a33.35 33.35 0 0 1 5.7 4.96c.31.32.56.64.86.95.51.67 1.1 1.35 1.57 2.07.15.16.17.4.4.48.18.06.4.1.57 0l.17-.17a33.9 33.9 0 0 1 7.75-7.82c.3-.27.87-.36.88-.86a.78.78 0 0 0-.35-.58h-.05a30.13 30.13 0 0 1-4.31-3.57L12.05 3.4c-.6-.67-1.19-1.41-1.75-2.12M8.77 3.02c.61-.42 1.16.16 1.63.5a24.66 24.66 0 0 1 4.88 5.07c.17.24.24.62.1.9-.35.57-.8 1.1-1.24 1.62v.03a32.86 32.86 0 0 1-3.49 3.33c-.6.37-1.16 1.18-1.94.68a28.14 28.14 0 0 1-4.93-4.65c-.24-.39-.62-.7-.8-1.13-.23-.58.3-1 .6-1.45 1.46-1.81 3.3-3.6 5.19-4.9m.39 1.2-.17.52-.83 2.39c.2.02.47 0 .67.02v.02l-.12 2.7.02.02c.27.03.6.04.87 0v-.05l-.11-2.61.02-.09.73-.01c-.37-.97-.72-1.94-1.06-2.92ZM6.33 7.93c-.47.24-1.15.6-1.08 1.23.1.35.48.58.78.72 1.65.73 3.85.75 5.6.21.42-.17 1-.4 1.08-.94 0-.43-.46-.7-.8-.87v-.02c.12-.05.25-.1.37-.1v-.02c-.58-.1-1.15-.25-1.71-.4.1.25.18.5.27.77.18-.06.35-.1.53-.12.3.11.73.28.77.65.04.35-.35.52-.59.66a6.85 6.85 0 0 1-4.06.16c-.36-.12-.9-.27-.94-.74.26-.61.94-.74 1.5-.9-.29-.18-.58-.35-.87-.56-.3.02-.58.15-.85.27m2.36 2.69c-.05.96-.06 1.84-.13 2.8.38.03.8.07 1.2.01l-.11-2.67-.02-.13c-.31.01-.6.02-.94-.01"/%3E%3Cpath d="M12.22 16.1c-.33 0-.63.23-.63.63s.3.63.63.63a.6.6 0 0 0 .63-.63.6.6 0 0 0-.63-.63m0 1.11c-.25 0-.45-.19-.45-.48s.2-.48.45-.48.45.2.45.48c0 .29-.2.48-.45.48m.28-.61c0-.16-.1-.2-.27-.2h-.26v.67h.15v-.29h.07l.15.29h.17l-.17-.3c.1 0 .16-.05.16-.17m-.25.07h-.13v-.17h.1c.05 0 .13.01.13.08 0 .08-.04.09-.1.09"/%3E%3C/g%3E%3C/svg%3E")}
+
+/* ---------- v3: publications card, logos, talk thumbnails ---------- */
+.pubcard{display:grid;grid-template-columns:minmax(0,1fr);gap:0;overflow:hidden}
+@media (min-width:860px){.pubcard{grid-template-columns:230px minmax(0,1fr)}}
+.pubstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:16px}
+@media (min-width:860px){.pubstats{grid-template-columns:repeat(2,minmax(0,1fr));align-content:center;border-right:1px solid var(--line)}}
+.pubstats .tile b{font-size:1.5rem}
+.pubcard .chart{padding:14px 18px 8px}
+.pubcard .chart svg{height:150px}
+.ev .vis .logo-img.tall{max-height:96px}
+.yt-note{display:inline-flex;align-items:center;gap:6px;margin-left:10px;text-transform:none;letter-spacing:0;font-family:var(--f-body);font-size:.8rem;color:var(--mute)}
+.yt-note .ic{width:20px;height:20px;stroke:none}
+.talks .vis{height:auto;aspect-ratio:16/9;display:block}
+.talks .vis img.photo{object-fit:cover}
+.playov{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(transparent 55%,rgba(0,0,0,.35));transition:background .2s}
+.playov svg{width:54px;height:54px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));transition:transform .2s}
+.talk:hover .playov svg,.talk .vis:hover .playov svg{transform:scale(1.12)}
+.talk .txt a{color:var(--coral);text-decoration:none;font-weight:600}
+.talk .txt a:hover{text-decoration:underline}
+div.talk:hover{border-color:var(--teal)}
+
+/* ---------- v4 ---------- */
+/* header: colourful surname + LNU logo */
+.brand .last{background:linear-gradient(100deg,var(--coral) 10%,var(--violet) 55%,var(--teal) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hdr-lnu{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 10px;margin-left:4px;border-left:1px solid var(--line2);font-size:.82rem;font-weight:500;color:var(--soft);text-decoration:none;white-space:nowrap}
+.hdr-lnu .lnu{width:22px;height:22px;color:var(--text)}
+.hdr-lnu:hover{color:var(--text)}
+@media (max-width:1180px){.hdr-lnu span{display:none}}
+@media (max-width:520px){.hdr-lnu{display:none}}
+.btn .lnu{width:1.15em;height:1.15em}
+img.bi{border-radius:50%}
+
+/* hero: portrait top-aligned with the name */
+.hero .wrap{align-items:start}
+.portrait{align-self:start;margin:0 26px 26px}
+@media (min-width:940px){.portrait{margin-top:-10px}}
+
+/* publications: stats row above the network */
+.sec .pubstats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:0;margin-bottom:28px;border:0}
+@media (max-width:700px){.sec .pubstats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sec .pubstats .tile{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.net-title{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;font-size:1.25rem;scroll-margin-top:90px}
+.net-title .mono{color:var(--mute);font-weight:400}
+
+/* network: opacity fades in CSS (no JS transitions → no flicker); fixed-size side panel */
+#netSvg .nd,#netSvg line,#netSvg text{transition:opacity .18s ease}
+#netSvg{height:520px;cursor:default}
+.side{height:600px;overflow:hidden}
+@media (max-width:979px){.side{height:auto;max-height:620px}}
+.side-head{min-height:96px;display:flex;flex-direction:column;gap:4px}
+.side-head h3{transition:color .18s}
+.side .sub{margin:0;font-size:.82rem;color:var(--mute)}
+.side .side-list{flex:1;min-height:0;max-height:none;overflow:auto}
+.side-foot{min-height:30px}
+.bars{display:flex;align-items:flex-end;gap:5px;height:86px;padding-top:0}
+.bars>div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%}
+.bars b{position:relative;display:block;width:100%;border-radius:4px 4px 0 0;background:var(--line2);overflow:hidden;transition:background .18s}
+.bars b.on{background:var(--coral)}
+.bars b i{position:absolute;left:0;right:0;bottom:0;height:0;background:var(--teal);transition:height .22s ease}
+.bars .n{font-family:var(--f-mono);font-size:.62rem;color:var(--teal);min-height:.9em;line-height:1}
+.bars>div>span:last-child{font-family:var(--f-mono);font-size:.6rem;color:var(--mute)}
+
+/* grant: smaller picture and padding */
+.grant .pic{min-height:200px}
+@media (min-width:900px){.grant{grid-template-columns:340px minmax(0,1fr)}}
+.grant .info{padding:22px 26px;gap:10px}
+.grant h3{font-size:1.25rem}
+.grant p{font-size:.95rem}
+.grant .nums div{padding:9px 11px}
+.grant .nums b{font-size:1.15rem}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+@media (min-width:860px){.contact{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}}
+.cbox{padding:24px;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.cbox small,.clabel{display:block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.cmail,.caddr{display:flex;gap:14px;align-items:flex-start;text-decoration:none}
+.cmail .ic,.caddr .lnu{width:26px;height:26px;color:var(--coral);flex:none;margin-top:4px}
+.caddr .lnu{color:var(--text)}
+.cmail span{font-family:var(--f-display);font-weight:700;font-size:1.35rem;letter-spacing:-.02em}
+.cmail:hover span{color:var(--teal)}
+.caddr span{color:var(--soft);line-height:1.5}
+.plinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
+.plinks a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:var(--r-sm);background:var(--surface2);text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid transparent;transition:border-color .2s}
+.plinks a:hover{border-color:var(--teal)}
+.plinks .bi,.plinks .lnu{width:20px;height:20px}
+
+/* ---------- v5: compact hero, full-width chips/links, 5 talks per row, rock-steady network panel ---------- */
+.hero .wrap{display:flex;flex-direction:column;gap:20px;padding-block:44px 36px}
+@media (min-width:940px){.hero .wrap{padding-block:56px 40px}}
+.hero-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center}
+.hero-copy{gap:14px}
+h1{font-size:clamp(1.55rem,6.4vw,3.6rem)}
+.portrait{width:190px;margin:16px 16px 16px 0;align-self:center}
+@media (min-width:940px){.portrait{margin-top:16px}}
+.orbit{inset:-16px}
+.orbit i{width:10px;height:10px}
+.orbit i:nth-child(2){width:13px;height:13px;right:-5px}
+.portrait .ring{padding:5px}
+.portrait .ring img{border-width:4px}
+.chips{gap:7px}
+@media (min-width:1100px){.chips{flex-wrap:nowrap;justify-content:space-between}.chip{font-size:.8rem;padding:6px 11px}}
+.hero-foot{display:flex;flex-direction:column;gap:16px}
+.links-row{gap:8px}
+.links-row .btn{font-size:.84rem;padding:8px 13px}
+@media (min-width:1100px){.links-row{flex-wrap:nowrap;justify-content:space-between}.links-row .btn{font-size:.8rem;padding:7px 11px}}
+@media (max-width:640px){
+  .hero-top{grid-template-columns:minmax(0,1fr);gap:18px}
+  .portrait{order:-1;width:140px;margin:14px auto 0}
+  .role{font-size:.78rem}
+  .links-row .btn{flex:1 1 calc(50% - 8px);justify-content:center}
+  .links-row .btn.mail{flex-basis:100%}
+}
+.btn.inv{background:transparent;border-color:var(--coral);color:var(--coral)}
+.btn.inv:hover{background:var(--coral);color:var(--on-accent);border-color:var(--coral)}
+
+.talks{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:700px){.talks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1100px){.talks{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.talks .txt{padding:11px 13px 13px}
+.talks .txt b{font-size:.92rem}
+.talks .txt span{font-size:.78rem;line-height:1.35}
+.talks .playov svg{width:40px;height:40px}
+.talks .vis .kind,.talks .vis .yr{font-size:.6rem;padding:2px 7px}
+@media (max-width:520px){.evs:not(.talks){grid-template-columns:minmax(0,1fr)}}
+
+/* network side panel: every slot has a fixed height, so hovering never moves anything */
+.side{gap:10px}
+.side .bars{flex:none;height:96px}
+.side-head{flex:none;min-height:0;height:92px;overflow:hidden}
+.side-head .kick{height:16px;line-height:16px}
+.side-head h3{font-size:1.15rem;line-height:1.25;height:2.5em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.side-head .meta{height:1.4em;line-height:1.4em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .sub{flex:none;height:18px;line-height:18px}
+.side .side-list{scrollbar-gutter:stable;overscroll-behavior:contain}
+.side-foot{flex:none;height:34px;display:flex;align-items:center}
+.side-foot .note{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:979px){.side{height:560px;max-height:none}}
+@media (max-width:640px){#netSvg{height:400px}.net-stage{min-height:0}}
+.sec .pubstats{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+/* ---------- TEP highlight ---------- */
+.tep{display:grid;grid-template-columns:minmax(0,1fr);overflow:hidden;border-color:color-mix(in srgb,var(--coral) 45%,var(--line))}
+@media (min-width:980px){.tep{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}}
+.tep-pic{position:relative;min-height:240px;background:#fff}
+.tep-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.tep-pic .cap{position:absolute;left:12px;bottom:10px;font-family:var(--f-mono);font-size:.66rem;color:#fff;background:rgba(0,0,0,.5);padding:3px 7px;border-radius:6px}
+.tep-body{padding:24px 26px;display:flex;flex-direction:column;gap:18px}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.pillars{grid-template-columns:minmax(0,1fr)}}
+.pillar{display:flex;flex-direction:column;gap:5px;padding:14px;border-radius:var(--r-sm);background:var(--surface2)}
+.pillar .pic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c)}
+.pillar .pic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pillar b{font-family:var(--f-display);font-weight:700;line-height:1.2}
+.pillar span:last-child{font-size:.82rem;color:var(--mute);line-height:1.4}
+.tep-facts{display:flex;flex-wrap:wrap;gap:7px}
+.tep-facts .chip{font-size:.78rem}
+.tep-projects small{display:block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.tep-projects ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--soft);font-size:.92rem}
+.tep-projects a{color:var(--coral)}
+
+/* ---------- hero chips/links fill the width without squeezing text ---------- */
+.chip,.links-row .btn{white-space:nowrap}
+@media (min-width:1100px){
+  .chips{flex-wrap:wrap;justify-content:stretch}
+  .chips .chip{flex:1 1 auto;justify-content:center;font-size:.78rem;padding:6px 9px}
+  .links-row{flex-wrap:wrap}
+  .links-row .btn{flex:1 1 auto;justify-content:center}
+}
+@media (max-width:640px){.net-legend{display:none}}
+/* hero rows span the full width; chips shrink a little so all nine fit one line on desktop */
+.hero .wrap{align-items:stretch}
+@media (min-width:1180px){
+  .chips{flex-wrap:nowrap;justify-content:space-between;gap:5px}
+  .chips .chip{flex:0 1 auto;font-size:.72rem;padding:5px 8px;gap:5px}
+  .chips .chip .ic{width:13px;height:13px}
+  .links-row{flex-wrap:nowrap}
+}
+@media (min-width:641px) and (max-width:1179px){.chips{flex-wrap:wrap;justify-content:flex-start}.chips .chip{flex:0 0 auto;font-size:.78rem}}
+
+/* ---------- v6 ---------- */
+/* flags (inline SVG) */
+.flag{display:inline-block;flex:none;width:1.25em;height:.875em;margin-left:.4em;vertical-align:-.06em;border-radius:2px;background:center/cover no-repeat;box-shadow:0 0 0 1px var(--line2)}
+h1 .flag{width:.62em;height:.43em;margin-left:.28em;vertical-align:.12em}
+.flag.br{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 14'%3E%3Crect width='20' height='14' fill='%23009c3b'/%3E%3Cpath d='M10 1.6 18.4 7 10 12.4 1.6 7z' fill='%23ffdf00'/%3E%3Ccircle cx='10' cy='7' r='3.3' fill='%23002776'/%3E%3Cpath d='M6.9 6.3c2-.6 4.4-.4 6.2.8' stroke='%23fff' stroke-width='.6' fill='none'/%3E%3C/svg%3E")}
+.flag.se{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3Crect width='16' height='10' fill='%23006aa7'/%3E%3Crect x='5' width='2' height='10' fill='%23fecc02'/%3E%3Crect y='4' width='16' height='2' fill='%23fecc02'/%3E%3C/svg%3E")}
+/* gradient text: keep the last letter's overhang inside the painted box */
+.last{padding-right:.08em;margin-right:-.04em}
+.role-lnu{display:inline-flex;align-items:center;gap:5px;color:var(--text);text-decoration:none;font-weight:600}
+.role-lnu .lnu{width:1.15em;height:1.15em}
+.role-lnu:hover{color:var(--teal)}
+/* email as plain text (not a link), contact-card style */
+.hero-mail{margin:2px 0}
+.hero-mail span{font-size:1.1rem;user-select:all}
+.hero-mail .ic{width:22px;height:22px;margin-top:3px}
+/* keywords: one labelled row for visualization, one for domains */
+.kw{display:flex;flex-direction:column;gap:8px}
+.kw-row{display:flex;align-items:center;gap:12px}
+.kw-lab{flex:none;width:98px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.kw .chips{flex:1;flex-wrap:wrap;justify-content:flex-start;gap:7px}
+.kw .chips .chip{flex:0 0 auto;font-size:.82rem;padding:6px 12px}
+@media (min-width:1180px){.kw .chips{flex-wrap:nowrap}}
+@media (max-width:640px){.kw-row{flex-direction:column;align-items:flex-start;gap:6px}.kw-lab{width:auto}}
+/* orbit: every dot sits exactly on the dashed circle (each dot rotates around the centre) */
+.portrait .orbit i,.portrait .orbit i:nth-child(n){position:absolute;inset:0;width:auto;height:auto;top:0;right:0;bottom:0;left:0;border:0;background:none;border-radius:0;transform:rotate(var(--a))}
+.portrait .orbit i::before{content:"";position:absolute;top:0;left:50%;width:var(--s);height:var(--s);transform:translate(-50%,-50%);border-radius:50%;background:var(--c);box-shadow:0 0 0 2.5px var(--bg)}
+.portrait .orbit i:nth-child(1){--a:-35deg;--s:10px;--c:var(--coral)}
+.portrait .orbit i:nth-child(2){--a:95deg;--s:13px;--c:var(--teal)}
+.portrait .orbit i:nth-child(3){--a:200deg;--s:10px;--c:var(--violet)}
+.portrait .orbit i:nth-child(4){--a:285deg;--s:8px;--c:var(--sun)}
+/* publications: numbers + buttons on one row above the network */
+.pubtop{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin-bottom:28px}
+.pubtop .pubstats{flex:1 1 420px;margin:0}
+.pubbtns{flex:0 1 auto;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.pubbtns .btn{justify-content:center}
+@media (max-width:640px){.pubbtns{flex:1 1 100%}}
+.pub-foot{margin-top:12px}
+/* TEP: whole photo visible, short text */
+.tep{grid-template-columns:minmax(0,1fr)!important}
+@media (min-width:980px){.tep{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important}}
+.tep-pic{min-height:0;background:#fff;display:flex;align-items:center}
+.tep-pic img{position:static;width:100%;height:auto;object-fit:contain;display:block}
+.tep-body{justify-content:center}
+.tep-origin{margin:0;color:var(--soft);font-size:1rem;line-height:1.55}
+.tep-origin b{color:var(--text)}
+.tep .pillars{grid-template-columns:minmax(0,1fr)}
+.tep .pillar{display:grid;grid-template-columns:38px minmax(0,1fr);column-gap:12px;align-items:center;padding:12px}
+.tep .pillar .pic{grid-row:span 2}
+footer .copy-yrs{white-space:nowrap}
+/* softer fades in the network (timeline and hover) */
+#netSvg .nd,#netSvg line,#netSvg text{transition:opacity .35s ease}
+.bars b{transition:background .3s,height .4s ease}
+.net-ctrl .yr{font-variant-numeric:tabular-nums}
+/* email label above the address, like the old contact card */
+.hero-mail small{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);font-weight:400}
+/* TEP: photo across the full card, text + pillars underneath */
+.tep,.tep{grid-template-columns:minmax(0,1fr)!important}
+.tep-pic{justify-content:center;padding:18px 18px 0}
+.tep-pic img{max-height:420px;width:auto;max-width:100%;margin:0 auto}
+@media (min-width:980px){
+  .tep-body{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px 28px;align-items:start}
+  .tep-origin{grid-column:1;grid-row:1}
+  .tep-body>.row-btns{grid-column:1;grid-row:2;align-self:end}
+  .tep .pillars{grid-column:2;grid-row:1 / span 2}
+}
+.tep .btn{white-space:normal;text-align:left}
+
+/* ---------- v7 ---------- */
+/* role: department on line 1, university + city on line 2 (no link) */
+.role .rl{display:block}
+.role .rl .lnu{width:1.15em;height:1.15em;margin-right:6px;vertical-align:-.22em;color:var(--text)}
+.role .flag{vertical-align:-.1em}
+/* email: icon + address on one line; a click selects just the address */
+.hero-mail{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;margin:0}
+.hero-mail .ic{width:20px;height:20px;margin:0;color:var(--coral);user-select:none}
+.hero-mail .addr{font-family:var(--f-display);font-weight:700;font-size:1.08rem;letter-spacing:-.01em;user-select:all;-webkit-user-select:all;cursor:text}
+/* portrait top = top of the name */
+.hero-top{align-items:start}
+.portrait{align-self:start;margin:8px 16px 0 0}
+@media (min-width:940px){.portrait{margin-top:8px}}
+@media (max-width:640px){.portrait{margin:14px auto 0}}
+/* stats and profile links share one line */
+.hero-foot{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px}
+.hero-foot .stats{flex:none;padding:0;gap:6px 22px}
+.hero-foot .stat b{font-size:1.55rem}
+.links-row{flex:1 1 auto;justify-content:flex-end;flex-wrap:wrap}
+.links-row .btn,.links-row .btn:nth-child(n){flex:0 0 auto}
+@media (min-width:1100px){.links-row{flex-wrap:nowrap}.links-row .btn{font-size:.84rem;padding:8px 13px}}
+@media (max-width:640px){
+  .hero-foot{flex-direction:column;align-items:stretch}
+  .links-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .links-row .btn{justify-content:center;padding:8px 6px;font-size:.82rem}
+}
+/* TEP: same footprint as the grant card: photo left, everything else right */
+.tep,.tep.card{grid-template-columns:minmax(0,1fr)!important}
+@media (min-width:900px){.tep,.tep.card{grid-template-columns:340px minmax(0,1fr)!important}}
+.tep-pic{padding:0;align-items:center;justify-content:center;min-height:0}
+.tep-pic img{max-height:none;width:100%;height:100%;object-fit:contain}
+@media (max-width:899px){.tep-pic img{height:auto;max-height:240px}}
+.tep-body,.tep .tep-body{display:flex!important;flex-direction:column;gap:14px;padding:22px 26px}
+.tep-origin{font-size:.95rem}
+.tep .pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.tep .pillars{grid-template-columns:minmax(0,1fr)}}
+.tep .pillar{display:flex;flex-direction:column;gap:4px;padding:11px}
+.tep .pillar .pic{width:30px;height:30px;border-radius:9px}
+.tep .pillar .pic svg{width:17px;height:17px}
+.tep .pillar b{font-size:.92rem}
+.tep .pillar span:last-child{font-size:.78rem}
+.tep .row-btns .btn{font-size:.84rem;padding:7px 13px}
+/* publications: compact numbers aligned with the two buttons */
+.pubtop{align-items:center;justify-content:space-between;gap:10px 16px}
+.pubtop .pubstats,.sec .pubtop .pubstats{flex:0 1 auto;display:flex;gap:8px;margin:0}
+.pubtop .tile{flex-direction:row;align-items:baseline;gap:7px;padding:8px 14px}
+.pubtop .tile b{font-size:1.3rem}
+.pubbtns{flex-direction:row;flex-wrap:wrap;gap:8px}
+@media (max-width:640px){.pubtop .pubstats{flex-wrap:wrap}.pubbtns{flex:1 1 100%}.pubbtns .btn{flex:1}}
+/* events organized: same card size as the talks */
+.orgs .vis{display:grid!important;place-items:center}
+.orgs .vis .logo-img{max-height:62%;max-width:80%}
+.orgs .vis .logo-img.tall{max-height:78%}
+/* icons line up with their text everywhere */
+.btn .ic,.btn .bi,.btn .lnu,.chip .ic{flex:none;vertical-align:middle}
+.btn img.bi{width:1.15em;height:1.15em}
+@media (max-width:640px){.tep .pillar{display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:10px;align-items:center;text-align:left}.tep .pillar .pic{grid-row:span 2}}
+
+/* ---------- v8 ---------- */
+.brand .flag{width:1.05em;height:.73em;margin-left:.1em}
+.hero-mail .addr{transition:color .2s}
+.hero-mail:hover .addr{color:var(--teal)}
+/* TEP uses the grant card look exactly */
+.card.grant.tep{border-color:var(--line)}
+.grant.tep .pic img{object-position:50% 35%}
+.grant .nums.pillars3 span{display:inline-flex;align-items:center;gap:5px}
+.grant .nums.pillars3 span .ic{width:13px;height:13px;color:var(--coral)}
+.grant .nums.pillars3 b{font-size:1rem}
+.grant p .flag{vertical-align:-.08em}
+
+/* keyword tiles with animated icons; both rows share one 6-column grid so they line up */
+.kw{gap:10px;margin-top:4px}
+.kw-row{align-items:center}
+.kts{flex:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.kt{display:flex;align-items:center;gap:9px;padding:7px 10px 7px 7px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:.8rem;font-weight:600;line-height:1.2;color:var(--soft);transition:border-color .2s,transform .2s}
+.kt:hover{border-color:var(--teal);transform:translateY(-2px)}
+.kt.app:hover{border-color:var(--coral)}
+.kt-ic{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:color-mix(in srgb,var(--teal) 15%,transparent);color:var(--teal)}
+.kt.app .kt-ic{background:color-mix(in srgb,var(--coral) 15%,transparent);color:var(--coral)}
+.kt-ic svg{width:20px;height:20px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.kt-ic svg *{transform-box:fill-box;transform-origin:center}
+@media (max-width:1100px){.kts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.kts{grid-template-columns:repeat(2,minmax(0,1fr))}.kt{font-size:.76rem}}
+
+/* the animations: slow loops, each icon telling its own story */
+.k-info .draw{stroke-dasharray:22;animation:kdraw 3.2s ease-in-out infinite}
+.k-info .dot{fill:currentColor;animation:kblink 3.2s ease-in-out infinite}
+@keyframes kdraw{0%{stroke-dashoffset:22}45%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-22}}
+@keyframes kblink{0%,40%{opacity:0}50%,80%{opacity:1}100%{opacity:0}}
+.k-net .n{fill:var(--surface)}
+.k-net .hub{animation:kpulse 2.4s ease-in-out infinite;fill:currentColor}
+.k-net .n1{animation:kpulse 2.4s ease-in-out .3s infinite}.k-net .n2{animation:kpulse 2.4s ease-in-out .6s infinite}
+.k-net .n3{animation:kpulse 2.4s ease-in-out .9s infinite}.k-net .n4{animation:kpulse 2.4s ease-in-out 1.2s infinite}
+.k-net .ed{stroke-dasharray:2 2;animation:kflow 1.2s linear infinite}
+@keyframes kpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+@keyframes kflow{to{stroke-dashoffset:-8}}
+.k-va .b1,.k-va .b2,.k-va .b3,.k-va .b4{stroke-width:2.4;transform-origin:bottom;animation:kgrow 2.8s ease-in-out infinite}
+.k-va .b2{animation-delay:.2s}.k-va .b3{animation-delay:.4s}.k-va .b4{animation-delay:.6s}
+.k-va .lens{animation:kscan 2.8s ease-in-out infinite}
+@keyframes kgrow{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.55)}}
+@keyframes kscan{0%,100%{transform:translateX(-5px)}50%{transform:translateX(3px)}}
+.k-sim .cube{animation:kturn 6s ease-in-out infinite}
+.k-sim .p{fill:currentColor;stroke:none}
+.k-sim .p1{animation:kp1 2.2s ease-in-out infinite}.k-sim .p2{animation:kp2 2.2s ease-in-out 1.1s infinite}
+@keyframes kturn{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
+@keyframes kp1{0%{transform:translate(0,0);opacity:1}100%{transform:translate(-7px,-4px);opacity:0}}
+@keyframes kp2{0%{transform:translate(0,0);opacity:1}100%{transform:translate(7px,-4px);opacity:0}}
+.k-vr .hmd{animation:kbob 2.6s ease-in-out infinite}
+.k-vr .eye{animation:kglint 2.6s ease-in-out infinite}
+.k-vr .wave{animation:kwave 2.6s ease-in-out infinite}
+@keyframes kbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
+@keyframes kglint{0%,60%,100%{fill:none}70%{fill:currentColor}}
+@keyframes kwave{0%,100%{opacity:.2;transform:translateY(1px)}50%{opacity:1;transform:translateY(-1px)}}
+.k-game .pad{animation:ktilt 2.4s ease-in-out infinite}
+.k-game .bt{fill:currentColor;stroke:none}
+.k-game .bt1{animation:kpress 1.2s steps(1) infinite}.k-game .bt2{animation:kpress 1.2s steps(1) .6s infinite}
+@keyframes ktilt{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes kpress{0%{opacity:1}50%{opacity:.15}}
+.k-city .w{animation:kwin 3s steps(1) infinite}
+.k-city .w2{animation-delay:.6s}.k-city .w3{animation-delay:1.2s}.k-city .w4{animation-delay:1.8s}.k-city .w5{animation-delay:2.4s}
+@keyframes kwin{0%{opacity:1}30%{opacity:.15}60%{opacity:1}}
+.k-tree .crown{transform-origin:50% 100%;animation:ksway 3s ease-in-out infinite}
+@keyframes ksway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.k-health .heart{animation:kbeat 1.4s ease-in-out infinite}
+.k-health .ecg{stroke-dasharray:20;animation:kdraw 1.4s linear infinite}
+@keyframes kbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(.97)}45%{transform:scale(1.08)}}
+@media (max-width:640px){.kw-row{align-items:stretch}.kw-lab{text-align:left}.kts{width:100%}}
+
+/* ---------- v9 ---------- */
+/* portrait: JS drives the rotation (smooth speed-up on hover); CSS only adds a gentle lift */
+.js-orbit .orbit,.js-orbit .ring,.js-orbit .ring img{animation:none!important}
+.portrait .ring{transition:box-shadow .5s ease}
+.portrait:hover .ring{box-shadow:0 0 0 6px color-mix(in srgb,var(--violet) 18%,transparent),0 18px 40px -18px color-mix(in srgb,var(--coral) 60%,transparent)}
+.portrait .orbit{transition:border-color .5s ease}
+.portrait:hover .orbit{border-color:color-mix(in srgb,var(--teal) 55%,transparent)}
+
+/* keyword icons: a bit livelier */
+.cube3d line{stroke:currentColor;stroke-width:1.5}
+.cube3d .cv{fill:currentColor;stroke:none}
+.k-tree .crown{animation:ksway 2.6s ease-in-out infinite}
+@keyframes ksway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.k-tree .leaf{fill:currentColor;stroke:none;opacity:0}
+.k-tree .l1{animation:kleaf 3.2s ease-in .4s infinite}
+.k-tree .l2{animation:kleaf2 3.2s ease-in 1.9s infinite}
+@keyframes kleaf{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(3px,10px) rotate(90deg)}}
+@keyframes kleaf2{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(-3px,9px) rotate(-90deg)}}
+.k-vr .hmd{animation:khead 3.4s ease-in-out infinite}
+@keyframes khead{0%,100%{transform:translateX(0) scaleX(1)}25%{transform:translateX(-1.6px) scaleX(.84)}50%{transform:translateX(0) scaleX(1)}75%{transform:translateX(1.6px) scaleX(.84)}}
+.k-vr .eyes{animation:keyes 3.4s ease-in-out infinite}
+@keyframes keyes{0%,100%{transform:translateX(0)}25%{transform:translateX(-1.4px)}75%{transform:translateX(1.4px)}}
+.k-vr .eye{animation:kglint 1.7s ease-in-out infinite}
+@keyframes kglint{0%,100%{fill:none}50%{fill:currentColor}}
+.k-vr .wave{opacity:0}
+.k-vr .w1{animation:kwave 1.8s ease-out infinite}
+.k-vr .w2{animation:kwave 1.8s ease-out .5s infinite}
+@keyframes kwave{0%{opacity:0;transform:translateY(2px)}40%{opacity:1}100%{opacity:0;transform:translateY(-1.5px)}}
+.k-net .hub{animation-name:kpulse2}
+@keyframes kpulse2{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+.k-game .pad{animation-duration:2s}
+@keyframes ktilt{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+
+/* TEP photo (transparent PNG) on a soft backdrop, whole group visible */
+.grant.tep .pic{background:radial-gradient(120% 90% at 50% 100%,color-mix(in srgb,var(--violet) 22%,var(--surface2)),var(--surface2))}
+.grant.tep .pic img{object-fit:contain;object-position:50% 100%;padding:14px 10px 0}
+.grant.tep .pic .cap{display:none}
+
+/* event logos: whole logo visible; GDxDR '27 a bit larger */
+.orgs .vis .logo-img{width:auto;height:auto;object-fit:contain}
+.orgs .vis .logo-img:not(.tall){max-width:90%;max-height:72%}
+.orgs .vis .logo-img.tall{max-height:84%;max-width:70%}
+
+/* bar chart: counts always visible above each bar */
+.bars .n{color:var(--soft);font-weight:600}
+.bars .n .k{color:var(--teal)}
+.bars .n .t{color:var(--mute);font-weight:400}
+.bars>div{cursor:pointer}
+.bars>div:hover b{outline:2px solid var(--teal);outline-offset:1px}
+.bars>div.sel b{outline:2px solid var(--text);outline-offset:1px}
+.side-list li[data-k],.side-list li[data-p]{cursor:pointer;transition:background .15s}
+.side-list li[data-k]:hover,.side-list li[data-p]:hover,.side-list li.hot{background:color-mix(in srgb,var(--teal) 16%,var(--surface2))}
+/* fixed logo sizes (percentages don't resolve inside the aspect-ratio box) */
+.orgs .vis .logo-img.tall{height:84px;width:auto;max-height:none;max-width:none}
+.orgs .vis .logo-img:not(.tall){width:86%;height:auto;max-height:none;max-width:none}
+@media (max-width:700px){.orgs .vis .logo-img.tall{height:72px}}
+
+/* ---------- v10 ---------- */
+/* talks: calm grayscale thumbnails, colour returns on hover */
+.talks .vis img.photo{filter:grayscale(1) contrast(1.05);transition:filter .35s ease}
+.talks .ev:hover .vis img.photo,.talks .vis:hover img.photo{filter:none}
+.talk .playov svg{filter:grayscale(1) brightness(1.6) drop-shadow(0 4px 10px rgba(0,0,0,.4));opacity:.9;transition:filter .3s,transform .2s,opacity .3s}
+.talk:hover .playov svg,.talk .vis:hover .playov svg{filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));opacity:1}
+.orgs .vis img.photo{filter:grayscale(1);transition:filter .35s}
+.orgs .ev:hover .vis img.photo{filter:none}
+/* TEP cut-out: thin white sticker outline + soft shadow hides the rough edge; the bottom fades into the card */
+.grant.tep .pic img{filter:drop-shadow(1.6px 0 0 #fff) drop-shadow(-1.6px 0 0 #fff) drop-shadow(0 1.6px 0 #fff) drop-shadow(0 -1.6px 0 #fff) drop-shadow(0 10px 16px rgba(0,0,0,.28));
+  -webkit-mask-image:linear-gradient(to bottom,#000 82%,transparent 100%);mask-image:linear-gradient(to bottom,#000 82%,transparent 100%)}
+/* keyword hover: the icon tile lifts and glows (motion.js also speeds up its animation) */
+.kt-ic{transition:transform .3s ease,background .3s ease,box-shadow .3s ease}
+.kt:hover .kt-ic{transform:scale(1.14);background:color-mix(in srgb,var(--teal) 28%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--teal) 12%,transparent)}
+.kt.app:hover .kt-ic{background:color-mix(in srgb,var(--coral) 28%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--coral) 12%,transparent)}
+/* mobile polish */
+@media (max-width:640px){
+  .pubtop .pubstats,.sec .pubtop .pubstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:6px}
+  .pubtop .tile{flex-direction:column;align-items:flex-start;gap:0;padding:8px 10px}
+  .pubtop .tile span{font-size:.6rem}
+  .net-title{flex-direction:column;align-items:flex-start;gap:2px}
+  .talks .txt span:not(:has(a)){display:none}          /* talk cards: title only on phones */
+  .talks .txt{padding:9px 11px 11px}
+  .orgs .txt span{font-size:.74rem}
+  .side-foot .note{font-size:.78rem}
+  .hero-mail .addr{font-size:1rem}
+}
+
+/* ---------- v11 ---------- */
+/* one rule for all preview images: grayscale until hovered */
+.demo .shot img,.orgs .vis .logo-img{filter:grayscale(1);transition:filter .35s ease,transform .5s}
+.demo:hover .shot img,.orgs .ev:hover .vis .logo-img{filter:none}
+/* TEP: keep the white outline, drop the bottom fade */
+.grant.tep .pic img{-webkit-mask-image:none;mask-image:none}
+/* VR grant picture: frame it to match the image's own 3:2 shape */
+.grant:not(.tep) .pic{min-height:0;aspect-ratio:3/2;align-self:center}
+@media (min-width:900px){.grant:not(.tep){align-items:center}.grant:not(.tep) .pic{height:100%;aspect-ratio:auto;min-height:226px}}
+.grant:not(.tep) .pic img{object-position:50% 45%}
+/* no metrics: links fill the row on their own */
+.hero-foot{justify-content:flex-start}
+.links-row{justify-content:flex-start}
+@media (min-width:1100px){.links-row{justify-content:space-between}.links-row .btn{flex:1 1 auto;justify-content:center}}
+.pubtop{justify-content:flex-start;margin-bottom:22px}
+@media (min-width:1100px){.hero .links-row{gap:8px}.hero .links-row .btn:nth-child(n){flex:1 1 0;justify-content:center}}
+/* profile links: natural width, left-aligned (overrides the stretch rules above) */
+.hero .links-row{justify-content:flex-start;flex-wrap:wrap}
+.hero .links-row .btn:nth-child(n){flex:0 0 auto}
+@media (max-width:640px){.hero .links-row{display:flex}.hero .links-row .btn{padding:7px 12px}}
+/* demo cards: a small play hint on the still frame */
+.demo .shot::after{content:"";position:absolute;right:10px;bottom:10px;width:26px;height:26px;border-radius:50%;background:rgba(15,18,32,.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7v10l8-5z' fill='white'/%3E%3C/svg%3E") center/16px no-repeat;transition:opacity .25s}
+.demo.playing .shot::after{opacity:0}
+:root[data-theme="light"] .orgs .vis .logo-img{filter:grayscale(1) brightness(.55) contrast(1.6)}
+:root[data-theme="light"] .orgs .ev:hover .vis .logo-img{filter:none}
+/* language of each recording, top-left of the thumbnail */
+.flag.us{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 10'%3E%3Crect width='19' height='10' fill='%23b22234'/%3E%3Cpath d='M0 1.15h19M0 2.7h19M0 4.23h19M0 5.77h19M0 7.3h19M0 8.85h19' stroke='%23fff' stroke-width='.77'/%3E%3Crect width='7.6' height='5.38' fill='%233c3b6e'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='1.3' cy='1' r='.3'/%3E%3Ccircle cx='2.9' cy='1' r='.3'/%3E%3Ccircle cx='4.5' cy='1' r='.3'/%3E%3Ccircle cx='6.1' cy='1' r='.3'/%3E%3Ccircle cx='2.1' cy='2.1' r='.3'/%3E%3Ccircle cx='3.7' cy='2.1' r='.3'/%3E%3Ccircle cx='5.3' cy='2.1' r='.3'/%3E%3Ccircle cx='1.3' cy='3.2' r='.3'/%3E%3Ccircle cx='2.9' cy='3.2' r='.3'/%3E%3Ccircle cx='4.5' cy='3.2' r='.3'/%3E%3Ccircle cx='6.1' cy='3.2' r='.3'/%3E%3Ccircle cx='2.1' cy='4.3' r='.3'/%3E%3Ccircle cx='3.7' cy='4.3' r='.3'/%3E%3Ccircle cx='5.3' cy='4.3' r='.3'/%3E%3C/g%3E%3C/svg%3E")}
+.talks .vis .flag.lang{position:absolute;left:10px;top:10px;margin:0;width:26px;height:18px;border-radius:3px;box-shadow:0 0 0 1.5px rgba(255,255,255,.85),0 2px 6px rgba(0,0,0,.35);z-index:1}
+.tree3d .tp{fill:currentColor;stroke:none}
+.tree3d .trunk{stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.tree3d .ground{fill:none;stroke:currentColor;stroke-width:1;opacity:.35}
+/* big card photos (TEP, grant): grayscale until the card is in the middle of the screen (or hovered) */
+.grant .pic img{transition:filter .7s ease}
+.grant:not(.tep) .pic img{filter:grayscale(1)}
+.grant.tep .pic img{filter:grayscale(1) drop-shadow(1.6px 0 0 #fff) drop-shadow(-1.6px 0 0 #fff) drop-shadow(0 1.6px 0 #fff) drop-shadow(0 -1.6px 0 #fff) drop-shadow(0 10px 16px rgba(0,0,0,.28))}
+.grant.in-focus:not(.tep) .pic img,.grant:not(.tep):hover .pic img{filter:grayscale(0)}
+.grant.tep.in-focus .pic img,.grant.tep:hover .pic img{filter:grayscale(0) drop-shadow(1.6px 0 0 #fff) drop-shadow(-1.6px 0 0 #fff) drop-shadow(0 1.6px 0 #fff) drop-shadow(0 -1.6px 0 #fff) drop-shadow(0 10px 16px rgba(0,0,0,.28))}
+.flag.gb{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2060%2030%27%3E%3CclipPath%20id%3D%27t%27%3E%3Cpath%20d%3D%27M30%2C15h30v15zv15h-30zh-30v-15zv-15h30z%27%2F%3E%3C%2FclipPath%3E%3Cpath%20d%3D%27M0%2C0v30h60v-30z%27%20fill%3D%27%23012169%27%2F%3E%3Cpath%20d%3D%27M0%2C0%2060%2C30M60%2C0%200%2C30%27%20stroke%3D%27%23fff%27%20stroke-width%3D%276%27%2F%3E%3Cpath%20d%3D%27M0%2C0%2060%2C30M60%2C0%200%2C30%27%20clip-path%3D%27url%28%23t%29%27%20stroke%3D%27%23C8102E%27%20stroke-width%3D%274%27%2F%3E%3Cpath%20d%3D%27M30%2C0v30M0%2C15h60%27%20stroke%3D%27%23fff%27%20stroke-width%3D%2710%27%2F%3E%3Cpath%20d%3D%27M30%2C0v30M0%2C15h60%27%20stroke%3D%27%23C8102E%27%20stroke-width%3D%276%27%2F%3E%3C%2Fsvg%3E")}

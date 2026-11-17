@@ -44,7 +44,9 @@ img{max-width:100%}
 header.top{position:sticky;top:10px;z-index:20;margin-top:10px}
 header.top .bar{display:flex;align-items:center;gap:14px;height:56px;padding:0 8px 0 16px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(14px);box-shadow:var(--shadow)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.1rem;letter-spacing:-.02em;white-space:nowrap}
-.brand-mark{width:28px;height:28px;flex:none}
+.brand-photo{width:34px;height:34px;flex:none;border-radius:50%;object-fit:cover;object-position:50% 22%;box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--coral)}
+.bi{width:1.1em;height:1.1em;flex:none;vertical-align:-.18em}
+.btn.primary .bi{color:currentColor}
 nav.links{display:flex;gap:2px;margin-left:auto}
 nav.links a{font-size:.88rem;font-weight:500;color:var(--mute);text-decoration:none;padding:7px 12px;border-radius:999px;white-space:nowrap;transition:color .2s,background .2s}
 nav.links a:hover{color:var(--text);background:var(--surface2)}
