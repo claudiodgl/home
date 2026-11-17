@@ -47,8 +47,12 @@
   var ang=0,speed=1,target=1,BASE=360/40;          /* degrees per second at rest (one turn every 40 s) */
   if(portrait){
     portrait.classList.add("js-orbit");            /* switches off the CSS keyframe spin */
-    portrait.addEventListener("pointerenter",function(){target=7});
-    portrait.addEventListener("pointerleave",function(){target=1});
+    /* mouse: fast while hovered. Touch: a tap gives a boost for ~2.5 s (touch "leaves" as soon as the finger lifts) */
+    var boostT=null;
+    portrait.addEventListener("pointerenter",function(e){if(e.pointerType!=="touch")target=7});
+    portrait.addEventListener("pointerleave",function(e){if(e.pointerType!=="touch")target=1});
+    portrait.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse")return;
+      target=7;clearTimeout(boostT);boostT=setTimeout(function(){target=1},2500)});
   }
 
   /* ---------- 3. keyword tiles: hovering speeds up the icon's animation without restarting it ---------- */

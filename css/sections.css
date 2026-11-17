@@ -702,3 +702,5 @@ footer .copy-yrs{white-space:nowrap}
 .portrait .orbit i:nth-child(2){--a:300deg;--c:var(--violet)}
 .portrait .orbit i:nth-child(3){--a:30deg;--c:var(--teal)}
 .portrait .orbit i:nth-child(4){--a:120deg;--c:var(--sun)}
+/* TEP backdrop: the violet glow suits dark mode; in light mode use a soft warm paper tone instead */
+:root[data-theme="light"] .grant.tep .pic{background:radial-gradient(120% 90% at 50% 100%,color-mix(in srgb,var(--sun) 10%,var(--surface2)),var(--surface2))}
