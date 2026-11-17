@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claudio D. G. Linhares</title>
+<meta name="description" content="Claudio D. G. Linhares, Associate Professor at Linnaeus University, Sweden. Information visualization, network visualization and visual analytics.">
+<script>/* set theme before paint to avoid a flash */(function(){var m=(location.search.match(/theme=(light|dark)/)||[])[1]||null;if(!m)try{m=localStorage.getItem("cdgl-theme")}catch(e){}if(!m)m=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",m)})()</script>
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/sections.css">
+</head>
+<body>
+
+<!-- icon sprite (drawn for this site; 24×24, stroke = currentColor) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 22v-5"/><path d="M12 2 7 9h3l-4 6h12l-4-6h3z"/></symbol>
+  <symbol id="i-health" viewBox="0 0 24 24"><path d="M19.5 13.5 12 21l-7.5-7.5A4.9 4.9 0 0 1 12 6.6a4.9 4.9 0 0 1 7.5 6.9z"/><path d="M3 12h4l1.5-3 3 6 1.5-3h3"/></symbol>
+  <symbol id="i-city" viewBox="0 0 24 24"><path d="M2 21h20"/><path d="M4 21V10h6v11"/><path d="M10 21V4h9v17"/><path d="M13 8h3M13 12h3M13 16h3M6.5 14h1M6.5 17.5h1"/></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="5" r="2.2"/><circle cx="12" cy="12.5" r="2.6"/><circle cx="6" cy="19" r="2.2"/><circle cx="18.5" cy="18.5" r="2.2"/><path d="m6.8 7.3 3.3 3.4M17.3 6.3l-3.4 4.4M7.7 17.7l2.4-3.2M14.2 14.3l2.7 2.6"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 6-7"/><circle cx="7" cy="15" r=".6"/><circle cx="20" cy="6" r=".6"/></symbol>
+  <symbol id="i-lens" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m21 21-5.4-5.4"/><path d="M7.5 12.5v-2M10.5 12.5V8M13.5 12.5v-3"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M9 11V5a1.8 1.8 0 0 1 3.6 0v5"/><path d="M12.6 9.5a1.8 1.8 0 0 1 3.6 0V11"/><path d="M16.2 10.5a1.8 1.8 0 0 1 3.6 0V15a7 7 0 0 1-7 7h-.8a7 7 0 0 1-5.8-3.1L3.8 15a1.8 1.8 0 0 1 3-2L9 15"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M11 3 13 8.5 18.5 10.5 13 12.5 11 18 9 12.5 3.5 10.5 9 8.5z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+  <symbol id="i-time" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9.5 12 5l10 4.5-10 4.5z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 9.5V15"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M8.5 9v7M8.5 6.8v.2"/><path d="M11.5 16V8.5h2.3a3.7 3.7 0 0 1 0 7.5z"/></symbol>
+  <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V17M8 7.3v.2M11.5 17v-6.5M11.5 13.5a2.5 2.5 0 0 1 5 0V17"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+  <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="6" ry="2.5"/><path d="M3 7v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V7"/><path d="M9 16.5c-3.3 0-6-1.1-6-2.5"/><path d="M3 11v6c0 1.4 2.7 2.5 6 2.5 1 0 2-.1 2.8-.3"/><ellipse cx="17" cy="15" rx="4" ry="1.8"/><path d="M13 15v3.5c0 1 1.8 1.8 4 1.8s4-.8 4-1.8V15"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.2A5 5 0 0 1 21.5 19"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 4h3.5v16H7zM13.5 4H17v16h-3.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 24 24"><path d="M5 3l14 7-6 2-2 6z"/></symbol>
+  <symbol id="i-drag" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M12 3l-2.5 2.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3"/><path d="M8 7h8M8 10.5h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m6.5 13 3-3.5 2.5 2 4-4.5"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="brand" href="#top" aria-label="Home"><img class="brand-mark" src="img/favicon.svg" alt="">C. Linhares</a>
+      <nav class="links" aria-label="Sections">
+        <a href="#network">Network</a>
+        <a href="#research">Research</a>
+        <a href="#demos">Demos</a>
+        <a href="#grants">Grants</a>
+        <a href="#publications">Publications</a>
+        <a href="#events">Events &amp; talks</a>
+      </nav>
+      <a class="btn sm primary" href="mailto:claudio.linhares@lnu.se"><svg class="ic"><use href="#i-mail"/></svg><span>Contact</span></a>
+      <button class="theme" id="theme" type="button" aria-label="Toggle light and dark mode"><svg class="moon ic"><use href="#i-moon"/></svg><svg class="sun ic"><use href="#i-sun"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===== hero + about ===== -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <a class="affil" href="https://lnu.se/en/" target="_blank" rel="noopener"><i class="lnu" aria-hidden="true"></i>Linnaeus University · Växjö, Sweden</a>
+        <h1>Claudio D. G.<br><span class="last">Linhares</span></h1>
+        <p class="role"><b>Associate Professor</b> · Department of Computer Science and Media Technology · Faculty of Technology</p>
+        <p class="statement">I design interactive visualizations that help people make sense of <span class="hl-c">networks that change over time</span> and <span class="hl-t">complex real-world data</span>.</p>
+        <p class="bio">My research covers information visualization, network visualization, human–computer interaction, visual analytics and human-in-the-loop AI, applied together with domain experts, especially in forestry and healthcare.</p>
+        <div class="chips">
+          <span class="chip"><svg class="ic"><use href="#i-chart"/></svg>Information visualization</span>
+          <span class="chip"><svg class="ic"><use href="#i-network"/></svg>Network visualization</span>
+          <span class="chip"><svg class="ic"><use href="#i-lens"/></svg>Visual analytics</span>
+          <span class="chip"><svg class="ic"><use href="#i-hand"/></svg>HCI</span>
+          <span class="chip"><svg class="ic"><use href="#i-spark"/></svg>Human-in-the-loop AI</span>
+          <span class="chip app"><svg class="ic"><use href="#i-tree"/></svg>Forestry</span>
+          <span class="chip app"><svg class="ic"><use href="#i-health"/></svg>Healthcare</span>
+        </div>
+        <div class="stats" id="heroStats">
+          <a class="stat" href="#publications"><b data-k="cites">–</b><span>citations</span></a>
+          <a class="stat" href="#publications"><b data-k="h">–</b><span>h-index</span></a>
+          <a class="stat" href="#network"><b data-k="papers">–</b><span>papers</span></a>
+          <a class="stat" href="#network"><b data-k="coauth">–</b><span>co-authors</span></a>
+        </div>
+        <div class="row-btns">
+          <a class="btn" href="https://scholar.google.com/citations?user=4Cj0tLEAAAAJ&amp;hl=en" target="_blank" rel="noopener"><svg class="ic"><use href="#i-cap"/></svg>Google Scholar</a>
+          <a class="btn" href="https://orcid.org/0000-0001-7012-4461" target="_blank" rel="noopener"><svg class="ic"><use href="#i-id"/></svg>ORCID</a>
+          <a class="btn" href="https://www.linkedin.com/in/claudiolinhares/" target="_blank" rel="noopener"><svg class="ic"><use href="#i-in"/></svg>LinkedIn</a>
+        </div>
+      </div>
+      <figure class="portrait">
+        <div class="orbit" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="ring"><img src="img/linhares.jpg" alt="Portrait of Claudio D. G. Linhares" width="480" height="602"></div>
+        <span class="badge b2"><i class="lnu" aria-hidden="true"></i><span>Linnaeus University<small>Växjö · Sweden</small></span></span>
+        <span class="badge b1"><svg class="ic coral"><use href="#i-coins"/></svg><span>VR grant PI<small>2026–2029</small></span></span>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== interactive co-author network ===== -->
+  <section class="sec" id="network">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><svg class="ic"><use href="#i-network"/></svg>My publications as a network</span>
+        <h2><span id="nPapers">43</span> papers, <span id="nCo">80</span> co-authors</h2>
+        <p>Every circle is a person I have published with; I am the photo in the middle. Two people are linked when they wrote a paper together. Bigger circles mean more papers with me, and the colour shows the year we first published together.</p>
+        <div class="how"><span><svg class="ic"><use href="#i-cursor"/></svg>Hover a person or a link to see the papers</span><span><svg class="ic"><use href="#i-time"/></svg>Play the timeline to watch it grow</span><span><svg class="ic"><use href="#i-drag"/></svg>Drag to rearrange</span></div>
+      </div>
+      <div class="net">
+        <div class="card net-stage" id="netStage">
+          <div class="net-legend"><span>first paper together</span><div class="ramp" id="ramp"></div><div class="ends"><span>2017</span><span>2026</span></div></div>
+          <svg id="netSvg" role="img" aria-label="Co-authorship network built from the publication list"></svg>
+          <div class="tip" id="netTip"></div>
+          <div class="net-ctrl">
+            <button class="play" id="netPlay" type="button" aria-label="Play timeline"><svg><use href="#i-play"/></svg></button>
+            <input id="netYear" type="range" min="2017" max="2026" step="1" value="2026" aria-label="Show collaborations up to year">
+            <span class="yr" id="netYearLbl">2026</span>
+          </div>
+        </div>
+        <aside class="card side" id="netSide" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== research ===== -->
+  <section class="sec" id="research">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><svg class="ic"><use href="#i-lens"/></svg>Research</span>
+        <h2>Where the visualizations are used</h2>
+        <p>The methods are general; the problems come from people working with forests, patients and cities.</p>
+      </div>
+      <div class="areas">
+        <article class="card area" style="--c:var(--teal)"><span class="big-ic"><svg><use href="#i-tree"/></svg></span><h3>Forestry</h3><p>Visual analytics for forest data, such as LiDAR point clouds of trees, within the university's Forest Values strength area.</p><div class="tags"><span>ForestVis</span><span>point clouds</span></div></article>
+        <article class="card area" style="--c:var(--coral)"><span class="big-ic"><svg><use href="#i-health"/></svg></span><h3>Healthcare</h3><p>Electronic health records for clinical decision-making, interoperable health databases, and epidemics on contact networks.</p><div class="tags"><span>ClinicalPath</span><span>I-CovidVis</span><span>DyNetVis</span></div></article>
+        <article class="card area" style="--c:var(--violet)"><span class="big-ic"><svg><use href="#i-city"/></svg></span><h3>Cities &amp; society</h3><p>Urban data, mobility and equity: fair urban planning in Sweden and pandemic scenario planning for public health.</p><div class="tags"><span>VR project</span><span>urban planning</span></div></article>
+      </div>
+      <div class="topics">
+        <div class="card topic"><svg class="ic"><use href="#i-chart"/></svg><div><b>Information visualization</b><span>Encodings and interaction for multivariate data</span></div></div>
+        <div class="card topic"><svg class="ic"><use href="#i-network"/></svg><div><b>Network visualization</b><span>Temporal and multivariate networks</span></div></div>
+        <div class="card topic"><svg class="ic"><use href="#i-lens"/></svg><div><b>Visual analytics</b><span>Interactive views plus computation</span></div></div>
+        <div class="card topic"><svg class="ic"><use href="#i-hand"/></svg><div><b>Human–computer interaction</b><span>User studies with domain experts</span></div></div>
+        <div class="card topic"><svg class="ic"><use href="#i-spark"/></svg><div><b>Human-in-the-loop AI</b><span>Interactive labeling, active learning</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== demos ===== -->
+  <section class="sec" id="demos">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><svg class="ic"><use href="#i-monitor"/></svg>Demos</span>
+        <h2>Try the tools in your browser</h2>
+        <p>Web versions of systems from my papers. No installation; click a card to open the live demo.</p>
+      </div>
+      <div class="demos">
+        <a class="card demo" href="https://benpowley.github.io/ForestVis-Demo/" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/demos/forestvis.svg" alt="Illustration of ForestVis: tree point clouds with a moving slice" loading="lazy"><span class="live">live demo</span></div>
+          <div class="txt"><h3>ForestVis</h3><p>Visual analytics for forest LiDAR point clouds.</p><div class="venue"><span>IEEE TVCG · accepted</span></div></div>
+        </a>
+        <a class="card demo" href="https://claudiodgl.github.io/ZigzagNetVis/" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/demos/zigzagnetvis.webp" alt="Screenshot of ZigzagNetVis" loading="lazy"><span class="live">live demo</span></div>
+          <div class="txt"><h3>ZigzagNetVis</h3><p>Suggests temporal resolutions for graph visualization using zigzag persistence.</p><div class="venue"><span>IEEE TVCG · 2025</span></div></div>
+        </a>
+        <a class="card demo" href="https://claudiodgl.github.io/ClinicalPath_web/" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/demos/clinicalpath.webp" alt="Screenshot of ClinicalPath" loading="lazy"><span class="live">live demo</span></div>
+          <div class="txt"><h3>ClinicalPath</h3><p>Shows a patient's exams over time to support clinical decision-making with electronic health records.</p><div class="venue"><span>IEEE TVCG · 2023</span></div></div>
+        </a>
+        <a class="card demo" href="https://claudiodgl.github.io/LargeNetVis/" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/demos/largenetvis.webp" alt="LargeNetVis interface: taxonomy matrix, global view, node-link diagram and temporal activity map" loading="lazy"><span class="live">live demo</span></div>
+          <div class="txt"><h3>LargeNetVis</h3><p>Explores large temporal networks through community taxonomies.</p><div class="venue"><span>IEEE TVCG · IEEE VIS 2022</span></div></div>
+        </a>
+        <a class="card demo" href="https://claudiodgl.github.io/DyNetVis_web/" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/demos/dynetvis.webp" alt="Screenshot of DyNetVis" loading="lazy"><span class="live">live demo</span></div>
+          <div class="txt"><h3>DyNetVis</h3><p>Visualizes structure and epidemic processes on temporal networks.</p><div class="venue"><span>ACM SAC · 2017</span></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== grants ===== -->
+  <section class="sec" id="grants">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><svg class="ic"><use href="#i-coins"/></svg>Grants</span>
+        <h2>Funded research</h2>
+      </div>
+      <article class="card grant">
+        <div class="pic"><img src="img/grant-vr.webp" alt="AI-generated illustration of the project: Swedish city, network of Sweden, virus and health workers" loading="lazy"><span class="cap">Project image · Linnaeus University</span></div>
+        <div class="info">
+          <span class="funder"><svg class="ic coral"><use href="#i-coins"/></svg>Swedish Research Council (VR) · Principal Investigator</span>
+          <h3>Simulating urban dynamics: visualization and networks for epidemiology and societal impact in Sweden</h3>
+          <p>An interactive, open-source platform that combines urban data, network science and visualization to study how virus-caused pandemics affect different communities in Sweden: healthcare access, social vulnerability, mobility and infrastructure resilience. It supports scenario planning for public health officials, urban planners and policymakers.</p>
+          <div class="nums">
+            <div><span>Amount</span><b>6 MSEK</b><small>≈ €540 000</small></div>
+            <div><span>Period</span><b>2026–29</b><small>4 years</small></div>
+            <div><span>Grant ID</span><b style="font-size:1rem">2025-06537</b><small>VR</small></div>
+          </div>
+          <div class="row-btns"><a class="btn sm" href="https://lnu.se/en/research/research-projects/project-simulating-urban-dynamics--visualization-and-networks-for-epidemiology-and-societal-impact-in-sweden/" target="_blank" rel="noopener">Project page <svg class="ic"><use href="#i-arrow"/></svg></a><a class="btn sm" href="https://www.vr.se/swecris.html#/project/2025-06537_VR" target="_blank" rel="noopener">SweCRIS <svg class="ic"><use href="#i-arrow"/></svg></a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== publications (Google Scholar) ===== -->
+  <section class="sec" id="publications">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><svg class="ic"><use href="#i-book"/></svg>Publications</span>
+        <h2>Selected papers</h2>
+        <p>Ten key papers: IEEE TVCG and CG&amp;A articles and the most cited work. Citation counts come from Google Scholar; the full list lives there.</p>
+      </div>
+      <div class="schol">
+        <div class="card tiles">
+          <div class="tile"><b data-s="cites">–</b><span>citations</span></div>
+          <div class="tile"><b data-s="h">–</b><span>h-index</span></div>
+          <div class="tile"><b data-s="i10">–</b><span>i10-index</span></div>
+        </div>
+        <div class="card chart"><div class="cap"><span>Citations per year</span><span id="chartVal"></span></div><svg id="citeChart" role="img" aria-label="Citations per year bar chart"></svg></div>
+      </div>
+      <ol class="top10" id="top10"></ol>
+      <div class="pub-foot">
+        <a class="btn primary" href="https://scholar.google.com/citations?user=4Cj0tLEAAAAJ&amp;hl=en&amp;view_op=list_works&amp;sortby=pubdate" target="_blank" rel="noopener"><svg class="ic"><use href="#i-cap"/></svg>All <span data-s="npubs">52</span> publications on Google Scholar</a>
+        <span class="note" id="schUpdated"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== events & talks ===== -->
+  <section class="sec" id="events">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><svg class="ic"><use href="#i-users"/></svg>Events &amp; talks</span>
+        <h2>Organizing and speaking</h2>
+      </div>
+      <div class="ev-group">
+        <h3>Events organized</h3>
+        <div class="evs">
+          <a class="card ev" href="https://claudiodgl.github.io/GDxDR/2027/" target="_blank" rel="noopener"><div class="vis"><img class="logo-img theme-dark-only" src="img/logos/gdxdr27-logo-dark.svg" alt="GDxDR '27 logo"><img class="logo-img theme-light-only" src="img/logos/gdxdr27-logo-light.svg" alt="GDxDR '27 logo"><span class="yr">2027</span></div><div class="txt"><b>GDxDR '27 · second edition</b><span>Workshop at EuroVis 2027, Stuttgart, Germany</span></div></a>
+          <a class="card ev" href="https://www.lnu.se/en/meet-linnaeus-university/current/events/2026/second-meeting-of-brazilian-researchers-in-sweden/" target="_blank" rel="noopener"><div class="vis"><span class="lnu-lock"><i class="lnu" aria-hidden="true"></i>Linnaeus<br>University</span><span class="yr">2026</span></div><div class="txt"><b>Second Meeting of Brazilian Researchers in Sweden</b><span>Växjö, Sweden</span></div></a>
+          <a class="card ev" href="https://sites.google.com/view/gdxdr26/home" target="_blank" rel="noopener"><div class="vis"><img class="photo" src="img/gdxdr26.jpg" alt="Audience at GDxDR '26" loading="lazy"><span class="yr">2026</span></div><div class="txt"><b>GDxDR '26 · first edition</b><span>Workshop at EuroVis 2026, Nottingham, UK</span></div></a>
+        </div>
+      </div>
+      <div class="ev-group">
+        <h3>Presentations &amp; invited talks</h3>
+        <div class="evs">
+          <div class="card ev"><div class="vis"><span class="mlogo ieee" role="img" aria-label="IEEE"></span><span class="kind">talk</span><span class="yr">2025</span></div><div class="txt"><b>IEEE VIS 2025</b><span>ZigzagNetVis: Suggesting temporal resolutions using zigzag persistence</span></div></div>
+          <div class="card ev"><div class="vis"><span class="mono-logo">EPBS<small>Pesquisadores na Suécia</small></span><span class="kind inv">invited</span><span class="yr">2025</span></div><div class="txt"><b>I Encontro de Pesquisadores Brasileiros na Suécia</b><span>Invited talk</span></div></div>
+          <div class="card ev"><div class="vis"><span class="mono-logo">CIn<small>UFPE · Recife</small></span><span class="kind inv">invited</span><span class="yr">2023</span></div><div class="txt"><b>Centro de Informática, UFPE</b><span>Invited talk · Brazil</span></div></div>
+          <div class="card ev"><div class="vis"><span class="mlogo ieee" role="img" aria-label="IEEE"></span><span class="kind">talk</span><span class="yr">2022</span></div><div class="txt"><b>IEEE VIS 2022</b><span>LargeNetVis (TVCG)</span></div></div>
+          <div class="card ev"><div class="vis"><span class="mlogo ieee" role="img" aria-label="IEEE"></span><span class="kind">talk</span><span class="yr">2021</span></div><div class="txt"><b>34th IEEE CBMS</b><span>I-CovidVis</span></div></div>
+          <div class="card ev"><div class="vis"><span class="mono-logo">BNRM<small>9th edition</small></span><span class="kind inv">invited</span><span class="yr">2020</span></div><div class="txt"><b>Belgian Network Research Meeting</b><span>Invited talk</span></div></div>
+          <div class="card ev"><div class="vis"><span class="mono-logo">SIBGRAPI<small>32nd conference</small></span><span class="kind">talk</span><span class="yr">2019</span></div><div class="txt"><b>SIBGRAPI 2019</b><span>Node ordering for temporal networks (C&amp;G)</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><i class="lnu" aria-hidden="true"></i>&nbsp; Department of Computer Science and Media Technology · Linnaeus University · Växjö, Sweden</span>
+    <div class="row-btns">
+      <a class="btn sm" href="https://scholar.google.com/citations?user=4Cj0tLEAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar</a>
+      <a class="btn sm" href="https://orcid.org/0000-0001-7012-4461" target="_blank" rel="noopener">ORCID</a>
+      <a class="btn sm" href="https://www.researchgate.net/profile/Claudio-Linhares-3" target="_blank" rel="noopener">ResearchGate</a>
+      <a class="btn sm" href="https://www.linkedin.com/in/claudiolinhares/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn sm" href="http://lattes.cnpq.br/0415158331496547" target="_blank" rel="noopener">Lattes</a>
+    </div>
+    <span class="mono">© 2026 Claudio D. G. Linhares</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="data/pubs.js"></script>
+<script src="data/scholar.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/network.js"></script>
+<script src="js/scholar-view.js"></script>
+</body>
+</html>

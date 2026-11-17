@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 20 636 136" width="2544" height="544">
+<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="140" y1="0" x2="530" y2="0"><stop offset="0" stop-color="#ffff00"/><stop offset=".5" stop-color="#b5ff10"/><stop offset="1" stop-color="#22ff22"/></linearGradient><linearGradient id="y" gradientUnits="userSpaceOnUse" x1="534" y1="0" x2="590" y2="0"><stop offset="0" stop-color="#ffff00"/><stop offset="1" stop-color="#22ff22"/></linearGradient></defs>
+<g transform="translate(-26 24)">
+    <ellipse cx="70" cy="104" rx="54" ry="16" stroke="#2ee24a" stroke-width="5" fill="none"/>
+    <path d="M32 98 V40 M48 96 V24 M64 102 V30 M86 110 V18 M98 108 V38 M116 100 V28 M52 112 V58 M70 106 V46" stroke="#4fd8ff" stroke-width="3" stroke-dasharray="5 6" fill="none"/>
+    <path d="M32 40 L48 24 M64 30 L86 18 M98 38 L116 28 M52 58 L70 46 M48 24 L64 30 M86 18 L98 38 M70 46 L86 18 M32 40 L52 58" stroke="#cdbd00" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <g fill="#f5e400" stroke="#000" stroke-width="2.5"><circle cx="32" cy="40" r="8"/><circle cx="48" cy="24" r="8"/><circle cx="64" cy="30" r="8"/><circle cx="86" cy="18" r="8"/><circle cx="98" cy="38" r="8"/><circle cx="116" cy="28" r="8"/><circle cx="52" cy="58" r="8"/><circle cx="70" cy="46" r="8"/></g>
+    <g fill="#2ee24a" stroke="#000" stroke-width="2.5"><circle cx="32" cy="98" r="6.5"/><circle cx="48" cy="96" r="6.5"/><circle cx="64" cy="102" r="6.5"/><circle cx="86" cy="110" r="6.5"/><circle cx="98" cy="108" r="6.5"/><circle cx="116" cy="100" r="6.5"/><circle cx="52" cy="112" r="6.5"/><circle cx="70" cy="106" r="6.5"/></g>
+  </g>
+<g font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif" font-weight="700">
+<text x="292" y="140" text-anchor="end" font-size="118" fill="url(#g)" letter-spacing="-2" >GD</text>
+<text x="333" y="128" text-anchor="middle" font-size="64" fill="#555">×</text>
+<text x="330" y="125" text-anchor="middle" font-size="64" fill="#fff">×</text>
+<text x="368" y="140" text-anchor="start" font-size="118" fill="url(#g)" letter-spacing="-2" >DR</text>
+<text x="534" y="76" text-anchor="start" font-size="44" fill="url(#y)" letter-spacing="-1" >'27</text>
+</g></svg>
