@@ -80,6 +80,20 @@
     cards.forEach(function(c){fio.observe(c)});
   }else cards.forEach(function(c){c.classList.add("in-focus")});
 
+  /* ---------- 6. email: click/tap copies it (no mail app pops up on phones) ---------- */
+  var mail=document.querySelector(".hero-mail");
+  if(mail){
+    var addr=mail.querySelector(".addr").textContent.trim(),note=mail.querySelector(".copied"),nt=null;
+    function copied(ok){note.textContent=ok?"Copied":"Select to copy";mail.classList.add("done");clearTimeout(nt);nt=setTimeout(function(){mail.classList.remove("done");note.textContent=""},1600)}
+    function copy(){
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(addr).then(function(){copied(true)},function(){copied(false)})}
+      else{var t=document.createElement("textarea");t.value=addr;t.setAttribute("readonly","");t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();
+        var ok=false;try{ok=document.execCommand("copy")}catch(e){}document.body.removeChild(t);copied(ok)}
+    }
+    mail.addEventListener("click",copy);
+    mail.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();copy()}});
+  }
+
   /* ---------- one loop, paused when off screen ---------- */
   var cubeOn=true,heroOn=true,last=null;
   if("IntersectionObserver" in window){

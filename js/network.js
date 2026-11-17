@@ -207,8 +207,14 @@
   var leaveT=null;
   function enter(f){clearTimeout(leaveT);if(typeof playing!=="undefined"&&playing)return;if(pinned)return;if(focus&&focus.d===f.d&&focus.type===f.type)return;focus=f;style()}
   function leave(){clearTimeout(leaveT);leaveT=setTimeout(function(){if(!pinned&&focus){focus=null;style()}},140)}
+  /* tooltip stays inside the network card (on phones the card is narrow, so it is clamped on both sides) */
   function showTip(e,html){var b=stage.getBoundingClientRect();if(html!=null)tip.innerHTML=html;tip.style.opacity=1;
-    var x=e.clientX-b.left+14,y=e.clientY-b.top+14;if(x>b.width-270)x-=290;tip.style.left=x+"px";tip.style.top=y+"px"}
+    var tw=tip.offsetWidth,th=tip.offsetHeight,x=e.clientX-b.left+14,y=e.clientY-b.top+14;
+    if(x+tw>b.width-8)x=e.clientX-b.left-tw-14;
+    x=Math.max(8,Math.min(x,b.width-tw-8));
+    if(y+th>b.height-8)y=e.clientY-b.top-th-14;
+    y=Math.max(8,y);
+    tip.style.left=x+"px";tip.style.top=y+"px"}
   function hideTip(){tip.style.opacity=0}
   function nPapers(k){return k+" paper"+(k>1?"s":"")}
   node.on("mouseenter",function(e,d){

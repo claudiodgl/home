@@ -682,3 +682,15 @@ footer .copy-yrs{white-space:nowrap}
 .kt:hover .kt-ic,.kt.app:hover .kt-ic{transform:none}
 .kt-ic svg{shape-rendering:geometricPrecision}
 #netSvg.playing .nd,#netSvg.playing line,#netSvg.playing text{transition:none}
+
+/* ---------- v12: mobile hero centred, email copies on click ---------- */
+.hero-mail{cursor:pointer;position:relative}
+.hero-mail .copied{font-family:var(--f-mono);font-size:.72rem;color:var(--teal);opacity:0;transition:opacity .2s}
+.hero-mail.done .copied{opacity:1}
+.hero-mail.done .addr{color:var(--teal)}
+@media (hover:none){.hero-mail .addr{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}}
+@media (max-width:640px){
+  .hero-copy h1,.hero-copy .role{text-align:center}
+  .hero-copy .role .rl{display:block}
+  .hero-mail{align-self:center}
+}
