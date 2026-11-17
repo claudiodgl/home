@@ -9,6 +9,6 @@
   var links={};document.querySelectorAll('nav.links a[href^="#"]').forEach(function(a){links[a.getAttribute("href").slice(1)]=a});
   if("IntersectionObserver" in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)Object.keys(links).forEach(function(k){links[k].classList.toggle("active",k===e.target.id)})})},{rootMargin:"-40% 0px -55% 0px"});
-    document.querySelectorAll("section.sec[id]").forEach(function(s){io.observe(s)});
+    document.querySelectorAll("section.sec[id], section.hero[id]").forEach(function(s){io.observe(s)});
   }
 })();

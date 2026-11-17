@@ -54,7 +54,10 @@
   /* ---------- 3. keyword tiles: hovering speeds up the icon's animation without restarting it ---------- */
   var cubeRate=1,cubeTarget=1,cubeT=0,treeRate=1,treeTarget=1,treeT=0;
   document.querySelectorAll(".kt").forEach(function(tile){
-    function rate(r){if(tile.getAnimations)tile.getAnimations({subtree:true}).forEach(function(a){a.updatePlaybackRate?a.updatePlaybackRate(r):(a.playbackRate=r)})}
+    /* only the icon's own looping keyframe animations: leave the hover transitions (lift, zoom) alone */
+    function rate(r){if(tile.getAnimations)tile.getAnimations({subtree:true}).forEach(function(a){
+      if(!a.animationName||a.effect&&a.effect.target&&!a.effect.target.closest("svg"))return;
+      a.updatePlaybackRate?a.updatePlaybackRate(r):(a.playbackRate=r)})}
     tile.addEventListener("pointerenter",function(){rate(2.3);if(tile.classList.contains("k-sim"))cubeTarget=3;if(tile.classList.contains("k-tree"))treeTarget=3});
     tile.addEventListener("pointerleave",function(){rate(1);if(tile.classList.contains("k-sim"))cubeTarget=1;if(tile.classList.contains("k-tree"))treeTarget=1});
   });

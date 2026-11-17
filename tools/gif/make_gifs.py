@@ -25,6 +25,15 @@ def fit(im):
 def save(frames, durs, name, colors=96, start=0):
     # rotate so the GIF's first (poster) frame shows content, not a blank loading screen
     frames, durs = frames[start:] + frames[:start], durs[start:] + durs[:start]
+    # the first frame doubles as the still poster on the page, so it must hand over to motion at once
+    # when hovered: keep it short and give its remaining time to the last frame of the loop
+    # frames identical to the poster at the start would be merged into one long still: drop them
+    from PIL import ImageChops
+    while len(frames) > 2 and ImageChops.difference(frames[0], frames[1]).getbbox() is None:
+        del frames[1]; del durs[1]
+    if len(durs) > 1 and durs[0] > 100:
+        durs[-1] += durs[0] - 100
+        durs[0] = 100
     pal = [f.quantize(colors=colors, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE) for f in frames]
     p = OUT / f"{name}.gif"
     pal[0].save(p, save_all=True, append_images=pal[1:], duration=durs, loop=0, optimize=True, disposal=1)

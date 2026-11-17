@@ -677,3 +677,8 @@ footer .copy-yrs{white-space:nowrap}
 .grant.in-focus:not(.tep) .pic img,.grant:not(.tep):hover .pic img{filter:grayscale(0)}
 .grant.tep.in-focus .pic img,.grant.tep:hover .pic img{filter:grayscale(0) drop-shadow(1.6px 0 0 #fff) drop-shadow(-1.6px 0 0 #fff) drop-shadow(0 1.6px 0 #fff) drop-shadow(0 -1.6px 0 #fff) drop-shadow(0 10px 16px rgba(0,0,0,.28))}
 .flag.gb{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2060%2030%27%3E%3CclipPath%20id%3D%27t%27%3E%3Cpath%20d%3D%27M30%2C15h30v15zv15h-30zh-30v-15zv-15h30z%27%2F%3E%3C%2FclipPath%3E%3Cpath%20d%3D%27M0%2C0v30h60v-30z%27%20fill%3D%27%23012169%27%2F%3E%3Cpath%20d%3D%27M0%2C0%2060%2C30M60%2C0%200%2C30%27%20stroke%3D%27%23fff%27%20stroke-width%3D%276%27%2F%3E%3Cpath%20d%3D%27M0%2C0%2060%2C30M60%2C0%200%2C30%27%20clip-path%3D%27url%28%23t%29%27%20stroke%3D%27%23C8102E%27%20stroke-width%3D%274%27%2F%3E%3Cpath%20d%3D%27M30%2C0v30M0%2C15h60%27%20stroke%3D%27%23fff%27%20stroke-width%3D%2710%27%2F%3E%3Cpath%20d%3D%27M30%2C0v30M0%2C15h60%27%20stroke%3D%27%23C8102E%27%20stroke-width%3D%276%27%2F%3E%3C%2Fsvg%3E")}
+/* keyword hover without transforms: moving/scaling the tile made the tiny SVGs snap sideways */
+.kt:hover,.kt.app:hover{transform:none}
+.kt:hover .kt-ic,.kt.app:hover .kt-ic{transform:none}
+.kt-ic svg{shape-rendering:geometricPrecision}
+#netSvg.playing .nd,#netSvg.playing line,#netSvg.playing text{transition:none}

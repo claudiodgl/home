@@ -76,7 +76,13 @@
   var Rmin=74,Rmax=240;
   function ringR(k){return Rmin+(Rmax-Rmin)*Math.pow(1-(k-1)/(maxN-1),.85)}
   var RINGS=[1,3,8,maxN];
-  function r(n){return n.id===SELF?24:4+Math.sqrt(n.papers.length)*3.6}
+  function r(n){return n.id===SELF?24:4+Math.sqrt(n.papers.length)*3.6}   /* final size, used for the layout */
+  /* growth over time: each paper fades in during the year before it, so sizes and widths change continuously */
+  nodes.forEach(function(n){n.ys=n.papers.map(function(i){return P[i].y})});
+  links.forEach(function(l){l.ys=l.papers.map(function(i){return P[i].y})});
+  function cum(ys,t){var c=0;for(var i=0;i<ys.length;i++){var v=t-(ys[i]-1);c+=v<=0?0:(v>=1?1:v)}return c}
+  function rAt(n,t){if(n.id===SELF)return 24;var c=cum(n.ys,t);return c<=0?0:4+Math.sqrt(c)*3.6}
+  function wAt(l,t){return l.spoke?Math.min(13,.6+cum(l.ys,t)*.55):1}
 
   var link=gL.selectAll("line").data(links).join("line").attr("stroke-linecap","round");
   var node=gN.selectAll("g").data(nodes).join("g").attr("class","nd").style("cursor","pointer");
@@ -106,7 +112,7 @@
     for(var i=0;i<400;i++)sim.tick();
     link.attr("x1",function(d){return d.source.x}).attr("y1",function(d){return d.source.y}).attr("x2",function(d){return d.target.x}).attr("y2",function(d){return d.target.y});
     node.attr("transform",function(d){return "translate("+d.x+","+d.y+")"});
-    label.attr("x",function(d){return d.x}).attr("y",function(d){return d.y-r(d)-5});
+    label.attr("x",function(d){return d.x}).attr("y",function(d){return d.y-rAt(d,year)-5});
   }
   layout();
 
@@ -128,16 +134,17 @@
     function on(n){if(!visibleN(n))return false;if(nb)return !!nb[n.id];if(lk)return n===lk.source||n===lk.target;return true}
     node.style("opacity",function(n){return !visibleN(n)?0:(on(n)?1:.15)})
       .style("pointer-events",function(n){return visibleN(n)?"all":"none"});
-    node.select("circle:not(.me-ring)").attr("fill",function(n){return color(n.first)}).attr("stroke",BG);
+    node.select("circle:not(.me-ring)").attr("fill",function(n){return color(n.first)}).attr("stroke",BG).attr("r",function(n){return rAt(n,year)});
+    label.attr("y",function(d){return d.y-rAt(d,year)-5});
     meG.select(".me-ring").attr("fill",BG).attr("stroke",TEXT).attr("stroke-width",2);
     link.attr("stroke",function(l){return lk===l?TEXT:(l.spoke?color(l.first):MUTE)})
       /* spoke width = papers with Claudio; co-author lines are all equal (they may share papers without Claudio) */
-      .attr("stroke-width",function(l){return (l.spoke?Math.min(13,1+l.papers.length*.55):1)+(lk===l?1.5:0)})
+      .attr("stroke-width",function(l){return wAt(l,year)+(lk===l?1.5:0)})
       .style("opacity",function(l){if(!visibleL(l))return 0;
         if(nb)return (nb[l.source.id]&&nb[l.target.id]&&(f.type==="group"||l.source===f.d||l.target===f.d))?(l.spoke?.85:.9):.04;
         if(lk)return l===lk?1:.04;
         return l.spoke?.5:.22})
-      .style("pointer-events",function(l){return visibleL(l)?"stroke":"none"});
+      .style("pointer-events","none");          /* lines overlap too much to hover; only people are interactive */
     label.attr("fill",TEXT).attr("stroke",BG)
       .style("opacity",function(n){if(!visibleN(n))return 0;if(nb)return nb[n.id]?1:0;if(lk)return (n===lk.source||n===lk.target)?1:0;return n.papers.length>=4?.9:0});
     if(!skipPanel)panel();
@@ -180,7 +187,7 @@
       sMeta.textContent="Papers per year, all co-authors";setBars(null);sSub.textContent="Most frequent co-authors";
       sList.innerHTML=shown.sort(function(a,b){return b.papers.length-a.papers.length}).slice(0,8)
         .map(function(n){return '<li data-k="'+esc(n.id)+'"><b>'+esc(n.name)+'</b><span>'+n.papers.length+' papers with '+EGO+' · since '+n.first+'</span></li>'}).join("");
-      sFoot.innerHTML='<p class="note">Hover a person or a line to see the papers; click to keep it.</p>';
+      sFoot.innerHTML='<p class="note">Hover a person to see the papers; click to keep it.</p>';
       return}
     var ids=f.d.papers,hit={};ids.forEach(function(i){hit[P[i].y]=(hit[P[i].y]||0)+1});
     if(f.type==="node"){
@@ -198,7 +205,7 @@
 
   /* ---------- interaction: hover with a short grace period so moving between people does not flash ---------- */
   var leaveT=null;
-  function enter(f){clearTimeout(leaveT);if(pinned)return;if(focus&&focus.d===f.d&&focus.type===f.type)return;focus=f;style()}
+  function enter(f){clearTimeout(leaveT);if(typeof playing!=="undefined"&&playing)return;if(pinned)return;if(focus&&focus.d===f.d&&focus.type===f.type)return;focus=f;style()}
   function leave(){clearTimeout(leaveT);leaveT=setTimeout(function(){if(!pinned&&focus){focus=null;style()}},140)}
   function showTip(e,html){var b=stage.getBoundingClientRect();if(html!=null)tip.innerHTML=html;tip.style.opacity=1;
     var x=e.clientX-b.left+14,y=e.clientY-b.top+14;if(x>b.width-270)x-=290;tip.style.left=x+"px";tip.style.top=y+"px"}
@@ -210,12 +217,6 @@
     .on("mousemove",function(e){showTip(e)})
     .on("mouseleave",function(){hideTip();leave()})
     .on("click",function(e,d){e.stopPropagation();pinned=d===me?null:{type:"node",d:d};focus=pinned;style()});
-  link.on("mouseenter",function(e,l){
-      if(l.spoke){enter({type:"node",d:l.target});showTip(e,"<b>"+EGO+" &amp; "+esc(short(l.target))+"</b><span>"+nPapers(l.papers.length)+" together · since "+l.first+"</span>");return}
-      enter({type:"link",d:l});showTip(e,"<b>"+esc(short(l.source))+" &amp; "+esc(short(l.target))+"</b><span>have co-authored together</span>")})
-    .on("mousemove",function(e){showTip(e)})
-    .on("mouseleave",function(){hideTip();leave()})
-    .on("click",function(e,l){e.stopPropagation();pinned=l.spoke?{type:"node",d:l.target}:{type:"link",d:l};focus=pinned;style()});
   svg.on("click",function(){pinned=null;focus=null;style()});
 
   /* ---------- side panel drives the graph (coordinated views) ---------- */
@@ -236,29 +237,50 @@
   sList.addEventListener("click",function(e){var li=e.target.closest("li[data-k]");if(!li||!people[li.dataset.k])return;
     pf=null;pinned={type:"node",d:people[li.dataset.k]};focus=pinned;style()});
 
-  /* ---------- timeline (only shows/hides; positions never change) ---------- */
-  var slider=document.getElementById("netYear"),lbl=document.getElementById("netYearLbl"),btn=document.getElementById("netPlay"),timer=null;
-  /* people/lines that appear in this step grow in: circles scale up, lines draw outwards from the centre */
-  function reveal(prev,y){
-    if(y<=prev)return;
-    node.filter(function(n){return n!==me&&n.first>prev&&n.first<=y}).select("circle")
-      .interrupt().attr("r",0).transition().duration(600).ease(d3.easeBackOut.overshoot(1.6)).attr("r",r);
-    link.filter(function(l){return l.first>prev&&l.first<=y}).each(function(l){
-      var L=Math.hypot(l.target.x-l.source.x,l.target.y-l.source.y)||1;
-      d3.select(this).interrupt().attr("stroke-dasharray",L+" "+L).attr("stroke-dashoffset",L)
-        .transition().duration(650).ease(d3.easeCubicOut).attr("stroke-dashoffset",0)
-        .on("end",function(){d3.select(this).attr("stroke-dasharray",null).attr("stroke-dashoffset",null)})});
+  /* ---------- timeline ----------
+     The slider jumps to a year. Play runs one continuous clock (about a year per second): circles grow,
+     spokes thicken and new collaborators fade in smoothly, with no pause between years. */
+  var slider=document.getElementById("netYear"),lbl=document.getElementById("netYearLbl"),btn=document.getElementById("netPlay");
+  var playing=false,raf=null,tNow=Y1,lastTs=null,shownYear=null,YPS=1.05;
+  var svgEl=svg.node();
+  function setYear(y){year=y;tNow=y;slider.value=y;lbl.textContent=y;style()}
+  function clamp01(v){return v<0?0:(v>1?1:v)}
+  function renderT(t){
+    var BG=css("--bg"),MUTE=css("--mute");
+    node.style("opacity",function(n){return n===me?1:clamp01((t-(n.first-1))*1.6)})
+      .style("pointer-events",function(n){return n===me||t>n.first-1?"all":"none"});
+    node.select("circle:not(.me-ring)").attr("r",function(n){return rAt(n,t)});
+    link.attr("stroke",function(l){return l.spoke?color(l.first):MUTE})
+      .attr("stroke-width",function(l){return wAt(l,t)})
+      .style("opacity",function(l){return clamp01((t-(l.first-1))*1.6)*(l.spoke?.55:.22)});
+    label.attr("y",function(d){return d.y-rAt(d,t)-5})
+      .style("opacity",function(n){return cum(n.ys,t)>=4?.9:0});
+    var y=Math.min(Y1,Math.max(Y0,Math.ceil(t-1e-6)));
+    if(y!==shownYear){shownYear=y;year=y;slider.value=y;lbl.textContent=y;panel()}   /* panel/bars only when the year changes */
   }
-  function setYear(y){var prev=year;year=y;slider.value=y;lbl.textContent=y;style();reveal(prev,y)}
-  slider.addEventListener("input",function(){stop();setYear(+slider.value)});
-  function stop(){clearInterval(timer);timer=null;btn.querySelector("use").setAttribute("href","#i-play");btn.setAttribute("aria-label","Play timeline")}
-  btn.addEventListener("click",function(){
-    if(timer){stop();return}
+  function frame(ts){
+    if(!playing)return;
+    var dt=lastTs===null?16:Math.min(64,ts-lastTs);lastTs=ts;
+    tNow=Math.min(Y1,tNow+dt/1000*YPS);
+    renderT(tNow);
+    if(tNow>=Y1){stop();return}
+    raf=requestAnimationFrame(frame);
+  }
+  function play(){
+    pinned=null;focus=null;pf=null;
+    if(tNow>=Y1)tNow=Y0-1;                 /* restart from an empty map */
+    playing=true;lastTs=null;shownYear=null;svgEl.classList.add("playing");
     btn.querySelector("use").setAttribute("href","#i-pause");btn.setAttribute("aria-label","Pause timeline");
-    if(year>=Y1){year=Y0-1}            /* restart: start from an empty map so 2017 grows in too */
-    setYear(year+1);
-    timer=setInterval(function(){if(year>=Y1){stop();return}setYear(year+1)},850);
-  });
+    raf=requestAnimationFrame(frame);
+  }
+  function stop(){
+    if(!playing)return;
+    playing=false;cancelAnimationFrame(raf);svgEl.classList.remove("playing");
+    btn.querySelector("use").setAttribute("href","#i-play");btn.setAttribute("aria-label","Play timeline");
+    setYear(Math.min(Y1,Math.max(Y0,Math.ceil(tNow-1e-6))));
+  }
+  slider.addEventListener("input",function(){stop();setYear(+slider.value)});
+  btn.addEventListener("click",function(){playing?stop():play()});
 
   document.addEventListener("themechange",function(){setColors();style()});
   var rz;window.addEventListener("resize",function(){clearTimeout(rz);rz=setTimeout(function(){var w=W,h=H;dims();if(Math.abs(w-W)>40||Math.abs(h-H)>40){layout()}style()},200)});
