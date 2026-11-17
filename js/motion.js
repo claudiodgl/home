@@ -109,8 +109,8 @@
       speed+=(target-speed)*Math.min(1,dt/350);    /* ease towards the target speed: no jumps */
       ang=(ang+BASE*speed*dt/1000)%360;
       orbit.style.transform="rotate("+ang.toFixed(2)+"deg)";
-      ring.style.transform="rotate("+(ang*2.2).toFixed(2)+"deg)";
-      img.style.transform="rotate("+(-ang*2.2).toFixed(2)+"deg)";   /* the face stays upright */
+      ring.style.transform="rotate("+ang.toFixed(2)+"deg)";        /* the coloured border turns with the dots: same angle, same speed */
+      img.style.transform="rotate("+(-ang).toFixed(2)+"deg)";      /* the face stays upright */
     }
     requestAnimationFrame(loop);
   }
