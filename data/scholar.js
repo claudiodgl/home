@@ -1,6 +1,6 @@
 window.SCHOLAR = {
  "profile": "https://scholar.google.com/citations?user=4Cj0tLEAAAAJ&hl=en",
- "fetched": "2026-11-17",
+ "fetched": "2026-11-18",
  "citations": {
   "all": 353,
   "since": 314
