@@ -1,9 +1,9 @@
 window.SCHOLAR = {
  "profile": "https://scholar.google.com/citations?user=4Cj0tLEAAAAJ&hl=en",
- "fetched": "2026-11-19",
+ "fetched": "2026-11-22",
  "citations": {
-  "all": 353,
-  "since": 314
+  "all": 354,
+  "since": 315
  },
  "h_index": {
   "all": 10,
@@ -23,7 +23,7 @@ window.SCHOLAR = {
   "2023": 44,
   "2024": 51,
   "2025": 57,
-  "2026": 62
+  "2026": 63
  },
  "publications": [
   {
@@ -67,7 +67,7 @@ window.SCHOLAR = {
    "authors": "CDG Linhares, JR Ponciano, DS Pedro, LEC Rocha, AJM Traina, J Poco",
    "venue": "IEEE transactions on visualization and computer graphics 29 (1), 203-213, 2022",
    "year": 2022,
-   "citations": 23,
+   "citations": 24,
    "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=4Cj0tLEAAAAJ&pagesize=100&citation_for_view=4Cj0tLEAAAAJ:0EnyYjriUFMC",
    "authors_full": null
   },
@@ -285,6 +285,15 @@ window.SCHOLAR = {
    "year": 2022,
    "citations": 1,
    "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=4Cj0tLEAAAAJ&pagesize=100&citation_for_view=4Cj0tLEAAAAJ:5nxA0vEk-isC",
+   "authors_full": null
+  },
+  {
+   "title": "Sidewalk Stewards: A Visual Analytics Approach for Interactive Topology Repair of Sidewalk Networks",
+   "authors": "S Cobeli, L Ferreira, L Loch, L Melo, P Baghershahi, CDG Linhares, ...",
+   "venue": "arXiv preprint arXiv:2611.20330, 2026",
+   "year": 2026,
+   "citations": 0,
+   "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=4Cj0tLEAAAAJ&pagesize=100&citation_for_view=4Cj0tLEAAAAJ:r0BpntZqJG4C",
    "authors_full": null
   },
   {
