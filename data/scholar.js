@@ -1,9 +1,9 @@
 window.SCHOLAR = {
  "profile": "https://scholar.google.com/citations?user=4Cj0tLEAAAAJ&hl=en",
- "fetched": "2026-11-22",
+ "fetched": "2026-11-26",
  "citations": {
-  "all": 354,
-  "since": 315
+  "all": 355,
+  "since": 316
  },
  "h_index": {
   "all": 10,
@@ -23,7 +23,7 @@ window.SCHOLAR = {
   "2023": 44,
   "2024": 51,
   "2025": 57,
-  "2026": 63
+  "2026": 64
  },
  "publications": [
   {
@@ -40,7 +40,7 @@ window.SCHOLAR = {
    "authors": "CDG Linhares, BAN Travençolo, JGS Paiva, LEC Rocha",
    "venue": "Proceedings of the symposium on applied computing, 187-194, 2017",
    "year": 2017,
-   "citations": 48,
+   "citations": 49,
    "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=4Cj0tLEAAAAJ&pagesize=100&citation_for_view=4Cj0tLEAAAAJ:u5HHmVD_uO8C",
    "authors_full": null
   },
